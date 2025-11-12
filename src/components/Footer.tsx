@@ -1,6 +1,6 @@
 export default function Footer() {
     // generujemy e-mail bez useState/useEffect — brak ostrzeżeń
-    const user = "mateuszpytlak+ar";
+    const user = "mpytlak.ar";
     const domain = "gmail.com";
     const email = `${user}@${domain}`;
 
