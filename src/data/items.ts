@@ -1,30 +1,70 @@
-// src/data/items.ts
-
 export interface Item {
     name: string;
     category: string;
     tier: number;
     value: number;
-    group: "Keep for Quests" | "Upgrading Benches" | "Safely Recycle";
+    group: "Keep for Quests" | "Keep for Projects" | "Upgrading Benches" | "Safely Recycle";
     rarity: "common" | "uncommon" | "rare" | "epic";
-    image?: string;
-    quantity?: number; // np. 3 → “3x”
+    image: string;
+    quantity?: number;
+    workshop?: string;
 }
+
+const makeImagePath = (name: string): string => {
+    const fileName = name
+        .toLowerCase()
+        .replace(/[^\w\s]/g, "") // usuń znaki specjalne
+        .replace(/\s+/g, "_") + ".webp";
+    return `/images/items/${fileName}`;
+};
 
 const placeholder = "https://placehold.co/128x128?text=Item";
 
-export const items: Item[] = [
-    // === KEEP FOR QUESTS ===
-    { name: "Wasp Driver", category: "ARC", tier: 0.8, value: 640, group: "Keep for Quests", rarity: "rare", quantity: 3, image: "/images/items/wasp_driver.webp" },
-    { name: "Water Pump", category: "Industrial", tier: 2, value: 1000, group: "Keep for Quests", rarity: "rare", quantity: 1, image: "/images/items/water_pump.webp" },
-    { name: "Hornet Driver", category: "ARC", tier: 0.75, value: 2000, group: "Keep for Quests", rarity: "rare", quantity: 3, image: "/images/items/hornet_driver.webp" },
-    { name: "Bicycle Pump", category: "Residential", tier: 0.75, value: 2000, group: "Keep for Quests", rarity: "rare", quantity: 1, image: "/images/items/bicycle_pump.webp" },
-    { name: "Fireball Burner", category: "ARC", tier: 8, value: 640, group: "Keep for Quests", rarity: "uncommon", quantity: 1, image: "/images/items/fireball_burner.webp" },
-    { name: "Camera Lens", category: "Security", tier: 0.8, value: 640, group: "Keep for Quests", rarity: "uncommon", quantity: 1, image: "/images/items/camera_lens.webp" },
-    { name: "Snitch Scanner", category: "ARC", tier: 0.75, value: 2000, group: "Keep for Quests", rarity: "uncommon", quantity: 2, image: "/images/items/snitch_scanner.webp" },
-    { name: "Tick Pod", category: "ARC", tier: 8, value: 640, group: "Keep for Quests", rarity: "uncommon", quantity: 1, image: "/images/items/tick_pod.webp" },
-    { name: "Deflated Football", category: "Residential", tier: 8, value: 640, group: "Keep for Quests", rarity: "uncommon", quantity: 1, image: "/images/items/deflated_football.webp" },
+const baseItems = [
+// === KEEP FOR QUESTS ===
+    { name: "Leaper Pulse Unit", category: "ARC", tier: 0.8, value: 640, group: "Keep for Quests", rarity: "epic", quantity: 1 },
+    { name: "Power Rod", category: "ARC", tier: 0.8, value: 640, group: "Keep for Quests", rarity: "epic", quantity: 1 },
+    { name: "Rocketeer Driver", category: "ARC", tier: 0.8, value: 640, group: "Keep for Quests", rarity: "epic", quantity: 1 },
 
+    { name: "Surveyor Vault", category: "ARC", tier: 0.8, value: 640, group: "Keep for Quests", rarity: "rare", quantity: 1 },
+    { name: "Antiseptic", category: "ARC", tier: 0.8, value: 640, group: "Keep for Quests", rarity: "rare", quantity: 1 },
+    { name: "Hornet Driver", category: "ARC", tier: 0.75, value: 2000, group: "Keep for Quests", rarity: "rare", quantity: 2 },
+    { name: "Syringe", category: "ARC", tier: 0.75, value: 2000, group: "Keep for Quests", rarity: "rare", quantity: 1 },
+    { name: "Wasp Driver", category: "ARC", tier: 0.8, value: 640, group: "Keep for Quests", rarity: "rare", quantity: 3 },
+    { name: "Water Pump", category: "Industrial", tier: 2, value: 1000, group: "Keep for Quests", rarity: "rare", quantity: 1 },
+
+    { name: "Snitch Scanner", category: "Industrial", tier: 2, value: 1000, group: "Keep for Quests", rarity: "uncommon", quantity: 2 },
+
+    { name: "Camera Lens", category: "Security", tier: 0.8, value: 640, group: "Keep for Quests", rarity: "uncommon", quantity: 1 },
+
+
+    // { name: "Bicycle Pump", category: "Residential", tier: 0.75, value: 2000, group: "Keep for Quests", rarity: "rare", quantity: 1, image: "/images/items/bicycle_pump.webp" },
+    // { name: "Fireball Burner", category: "ARC", tier: 8, value: 640, group: "Keep for Quests", rarity: "uncommon", quantity: 1, image: "/images/items/fireball_burner.webp" },
+    // { name: "Camera Lens", category: "Security", tier: 0.8, value: 640, group: "Keep for Quests", rarity: "uncommon", quantity: 1, image: "/images/items/camera_lens.webp" },
+    // { name: "Snitch Scanner", category: "ARC", tier: 0.75, value: 2000, group: "Keep for Quests", rarity: "uncommon", quantity: 2, image: "/images/items/snitch_scanner.webp" },
+    // { name: "Tick Pod", category: "ARC", tier: 8, value: 640, group: "Keep for Quests", rarity: "uncommon", quantity: 1, image: "/images/items/tick_pod.webp" },
+    // { name: "Deflated Football", category: "Residential", tier: 8, value: 640, group: "Keep for Quests", rarity: "uncommon", quantity: 1, image: "/images/items/deflated_football.webp" },
+
+    // === KEEP FOR PROJECTS ===
+    { name: "Leaper Pulse Unit", category: "ARC", tier: 0.8, value: 640, group: "Keep for Projects", rarity: "epic", quantity: 3 },
+    { name: "Magnetic Accelerator", category: "ARC", tier: 0.8, value: 640, group: "Keep for Projects", rarity: "epic", quantity: 3 },
+    { name: "Exodus Modules", category: "ARC", tier: 0.8, value: 640, group: "Keep for Projects", rarity: "epic", quantity: 1 },
+
+    { name: "Adv. Electrical Components", category: "Electrical", tier: 0.8, value: 640, group: "Keep for Projects", rarity: "rare", quantity: 5 },
+    { name: "Humidifier", category: "Residential", tier: 0.8, value: 640, group: "Keep for Projects", rarity: "rare", quantity: 5 },
+    { name: "Sensors", category: "Technological", tier: 0.8, value: 640, group: "Keep for Projects", rarity: "rare", quantity: 20 },
+    { name: "Cooling Fan", category: "Technological", tier: 0.8, value: 640, group: "Keep for Projects", rarity: "rare", quantity: 5 },
+
+    { name: "Battery", category: "Technological", tier: 0.8, value: 640, group: "Keep for Projects", rarity: "uncommon", quantity: 30 },
+    { name: "Light Bulb", category: "Technological", tier: 0.8, value: 640, group: "Keep for Projects", rarity: "uncommon", quantity: 5 },
+    { name: "Electrical Components", category: "Electrical", tier: 0.8, value: 640, group: "Keep for Projects", rarity: "uncommon", quantity: 30 },
+    { name: "Wires", category: "Electrical", tier: 0.8, value: 640, group: "Keep for Projects", rarity: "uncommon", quantity: 30 },
+    { name: "Durable Cloth", category: "Electrical", tier: 0.8, value: 640, group: "Keep for Projects", rarity: "uncommon", quantity: 35 },
+    { name: "Steel Spring", category: "Electrical", tier: 0.8, value: 640, group: "Keep for Projects", rarity: "uncommon", quantity: 15 },
+    { name: "ARC Alloy", category: "Electrical", tier: 0.8, value: 640, group: "Keep for Projects", rarity: "uncommon", quantity: 80 },
+
+    { name: "Rubber Parts", category: "Electrical", tier: 0.8, value: 640, group: "Keep for Projects", rarity: "common", quantity: 150 },
+    { name: "Metal Parts", category: "Electrical", tier: 0.8, value: 640, group: "Keep for Projects", rarity: "common", quantity: 200 },
 
     // === UPGRADING BENCHES ===
     { name: "Bastion Cell", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "epic", quantity: 9 },
@@ -49,68 +89,138 @@ export const items: Item[] = [
     { name: "Tick Pod", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 8 },
     { name: "Snitch Scanner", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 8 },
 
+    { name: "Pop Trigger", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "common", quantity: 8 },
+
+    // === Scrappy  ===
+    { name: "Dog Collar", category: "Residential", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 1, workshop: "Scrappy" },
+    { name: "Lemon", category: "Nature", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 3, workshop: "Scrappy" },
+    { name: "Apricot", category: "Nature", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 3, workshop: "Scrappy" },
+    { name: "Prickly Pear", category: "Nature", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 6, workshop: "Scrappy" },
+    { name: "Olives", category: "Nature", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 6, workshop: "Scrappy" },
+    { name: "Cat Bed", category: "Commercial", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 1, workshop: "Scrappy" },
+    { name: "Mushroom", category: "Nature", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 12, workshop: "Scrappy" },
+    { name: "Apricot", category: "Nature", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 12, workshop: "Scrappy" },
+    { name: "Very Comfortable Pillow", category: "Nature", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 3, workshop: "Scrappy" },
+
+    // === Gunsmith Bench  ===
+    { name: "Rusted Tools", category: "Mechanical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Gunsmith Bench" },
+    { name: "Mechanical Components", category: "Mechanical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5, workshop: "Gunsmith Bench" },
+    { name: "Wasp Driver", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 8, workshop: "Gunsmith Bench" },
+    { name: "Rusted Gear", category: "Industrial", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Gunsmith Bench" },
+    { name: "Adv. Mechanical Components", category: "Mechanical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5, workshop: "Gunsmith Bench" },
+    { name: "Sentinel Firing Core", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 4, workshop: "Gunsmith Bench" },
+
+    // === Medical Lab  ===
+    { name: "Cracked Bioscanner", category: "Medical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 2, workshop: "Medical Lab" },
+    { name: "Durable Cloth", category: "Medical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 5, workshop: "Medical Lab" },
+    { name: "Tick Pod", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 8, workshop: "Medical Lab" },
+    { name: "Rusted Shut Medical Kit", category: "Medical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Medical Lab" },
+    { name: "Antiseptic", category: "Mechanical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 8, workshop: "Medical Lab" },
+    { name: "Surveyor Vault", category: "Mechanical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5, workshop: "Medical Lab" },
+
+    // === Explosives Station  ===
+    { name: "Synthesized Fuel", category: "Exodus", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Explosives Station" },
+    { name: "Crude Explosives", category: "Industrial", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 5, workshop: "Explosives Station" },
+    { name: "Pop Trigger", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 5, workshop: "Explosives Station" },
+    { name: "Laboratory Reagents", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Explosives Station" },
+    { name: "Explosive Compound", category: "Industrial", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5, workshop: "Explosives Station" },
+    { name: "Rocketeer Driver", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "epic", quantity: 3, workshop: "Explosives Station" },
+
+    // === Gear Bench  ===
+    { name: "Power Cable", category: "Commercial", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Gear Bench" },
+    { name: "Hornet Driver", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5, workshop: "Gear Bench" },
+    { name: "Electrical Components", category: "Electrical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 5, workshop: "Gear Bench" },
+    { name: "Industrial Battery", category: "Industrial", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Gear Bench" },
+    { name: "Adv. Electrical Components", category: "Electrical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5, workshop: "Gear Bench" },
+    { name: "Bastion Cell", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "epic", quantity: 6, workshop: "Gear Bench" },
+
+    // === Refinery  ===
+    { name: "Toaster", category: "Residential", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Rafinery" },
+    { name: "ARC Motion Core", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5, workshop: "Rafinery" },
+    { name: "Fireball Burner", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 8, workshop: "Rafinery" },
+    { name: "Motor", category: "Mechanical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Rafinery" },
+    { name: "ARC Circuitry", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 10, workshop: "Rafinery" },
+    { name: "Bombardier Cell", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "epic", quantity: 6, workshop: "Rafinery" },
+
+    // === Utility Station  ===
+    { name: "Damaged Heat Sink", category: "Technological", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 2 , workshop: "Utility Station"},
+    { name: "Electrical Components", category: "Electrical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 5 , workshop: "Utility Station"},
+    { name: "Snitch Scanner", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 6 , workshop: "Utility Station"},
+    { name: "Fried Motherboard", category: "Technological", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3 , workshop: "Utility Station"},
+    { name: "Adv. Electrical Components", category: "Electrical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5 , workshop: "Utility Station"},
+    { name: "Leaper Pulse Unit", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "epic", quantity: 4, workshop: "Utility Station"},
+
+
+
+    // === SCRAPPY ===
 
     { name: "Pop Trigger", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "common", quantity: 8 },
 
-
     // === SAFELY RECYCLE ===
-    { name: "Ruined Accordion", category: "ARC", tier: 1, value: 1000, group: "Safely Recycle", rarity: "rare", image: placeholder },
-    { name: "Alarm Clock", category: "ARC", tier: 1, value: 1000, group: "Safely Recycle", rarity: "rare", image: placeholder },
-    { name: "ARC Coolant", category: "ARC", tier: 1, value: 1000, group: "Safely Recycle", rarity: "rare", image: placeholder },
-    { name: "ARC Flex Rubber", category: "ARC", tier: 1, value: 1000, group: "Safely Recycle", rarity: "rare", image: placeholder },
-    { name: "ARC Performance Steel", category: "ARC", tier: 1, value: 1000, group: "Safely Recycle", rarity: "rare", image: placeholder },
-    { name: "ARC Synthetic Resin", category: "ARC", tier: 1, value: 1000, group: "Safely Recycle", rarity: "rare", image: placeholder },
-    { name: "ARC Thermo Lining", category: "ARC", tier: 1, value: 1000, group: "Safely Recycle", rarity: "rare", image: placeholder },
-    { name: "Torn Blanket", category: "ARC", tier: 1, value: 1000, group: "Safely Recycle", rarity: "rare", image: placeholder },
-    { name: "Bicycle Pump", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare", image: placeholder},
-    { name: "Broken Flashlight", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare", image: placeholder},
-    { name: "Broken Guidance System", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare", image: placeholder},
-    { name: "Broken Handheld Radio", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare", image: placeholder},
-    { name: "Broken Teaser", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare", image: placeholder},
-    { name: "Coolant", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare", image: placeholder},
-    { name: "Cooling Coil", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare", image: placeholder},
-    { name: "Ruined Riot Shield", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare", image: placeholder},
-    { name: "Turbo Pump", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare", image: placeholder},
-    { name: "Diving Googles", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare", image: placeholder},
-    { name: "Expired Respirator", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare", image: placeholder},
-    { name: "Frying Pan", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare", image: placeholder},
-    { name: "Headphones", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare", image: placeholder},
-    { name: "Industrial Charger", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare", image: placeholder},
-    { name: "Industrial Magnet", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare", image: placeholder},
-    { name: "Polluted Air Filter", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare", image: placeholder},
-    { name: "Spring Cushion", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare", image: placeholder},
-    { name: "Water Filter", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare", image: placeholder},
-    { name: "Portable TV", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare", image: placeholder},
-    { name: "Power Bank", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare", image: placeholder},
-    { name: "Projector", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare", image: placeholder},
-    { name: "Radio", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare", image: placeholder},
-    { name: "Remote Control", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare", image: placeholder},
-    { name: "Rubber Pad", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare", image: placeholder},
-    { name: "Thermostat", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare", image: placeholder},
+    { name: "Accordion", category: "Residential", tier: 1, value: 1000, group: "Safely Recycle", rarity: "rare" },
+    { name: "Alarm Clock", category: "Residential", tier: 1, value: 1000, group: "Safely Recycle", rarity: "rare" },
+    { name: "ARC Coolant", category: "ARC", tier: 1, value: 1000, group: "Safely Recycle", rarity: "rare" },
+    { name: "ARC Flex Rubber", category: "ARC", tier: 1, value: 1000, group: "Safely Recycle", rarity: "rare"  },
+    { name: "ARC Performance Steel", category: "ARC", tier: 1, value: 1000, group: "Safely Recycle", rarity: "rare" },
+    { name: "ARC Synthetic Resin", category: "ARC", tier: 1, value: 1000, group: "Safely Recycle", rarity: "rare" },
+    { name: "ARC Thermo Lining", category: "ARC", tier: 1, value: 1000, group: "Safely Recycle", rarity: "rare" },
+    { name: "Bicycle Pump", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
+    { name: "Broken Flashlight", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
+    { name: "Broken Guidance System", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
+    { name: "Broken Handheld Radio", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
+    { name: "Broken Teaser", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
+    { name: "Burned ARC Circuitry", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "uncommon" },
+    { name: "Camera Lens", category: "Security", tier: 0.8, value: 640, group: "Safely Recycle", rarity: "uncommon", quantity: 1 },
+    { name: "Candle Holder", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon"  },
+    { name: "Coolant", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
+    { name: "Cooling Coil", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
+    { name: "Crumpled Plastic Bottle", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "uncommon" },
+    { name: "Damaged ARC Motion Core", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon"  },
+    { name: "Damaged ARC Powercell", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon"  },
+    { name: "Damaged Rocketeer Driver", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "common"  },
+    { name: "Deflated Football", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon"  },
+    { name: "Degraded ARC Rubber", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon"  },
+    { name: "Diving Googles", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "rare"  },
+    { name: "Dried-Out ARC Resin", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon"  },
+    { name: "Expired Respirator", category: "Medical", tier: 1, value: 640, group: "Safely Recycle", rarity: "rare"  },
+    { name: "Flute", category: "Residential", tier: 1, value: 640, group: "Safely Recycle", rarity: "rare"  },
+    { name: "Frying Pan", category: "Residential", tier: 1, value: 640, group: "Safely Recycle", rarity: "rare"  },
+    { name: "Garlic Press", category: "Residential", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon"  },
+    { name: "Headphones", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
+    { name: "Ice Cream Scooper", category: "Commercial", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "uncommon" },
+    { name: "Household Cleaner", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon"  },
+    { name: "Impure ARC Coolant", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon"  },
+    { name: "Industrial Charger", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
+    { name: "Industrial Magnet", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
+    { name: "Metal Brackets", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "uncommon" },
+    { name: "Number Plate", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon"  },
+    { name: "Polluted Air Filter", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
+    { name: "Portable TV", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
+    { name: "Power Bank", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
+    { name: "Projector", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
+    { name: "Radio", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
+    { name: "Remote Control", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
+    { name: "Ripped Safety Vest", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon"  },
+    { name: "Rubber Pad", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
+    { name: "Ruined Accordion", category: "ARC", tier: 1, value: 1000, group: "Safely Recycle", rarity: "rare"  },
+    { name: "Ruined Baton", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon"  },
+    { name: "Ruined Handcuffs", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon"  },
+    { name: "Ruined Parachute", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon"  },
+    { name: "Ruined Riot Shield", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
+    { name: "Ruined Tactical Vest", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "uncommon" },
+    { name: "Rusted Bolts", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon"  },
+    { name: "Rusty ARC Steel", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon"  },
+    { name: "Spotter Relay", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon"  },
+    { name: "Spring Cushion", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
+    { name: "Tattered ARC Lining", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon"  },
+    { name: "Tattered Clothes", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon"  },
+    { name: "Thermostat", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
+    { name: "Torn Blanket", category: "ARC", tier: 1, value: 1000, group: "Safely Recycle", rarity: "rare"  },
+    { name: "Turbo Pump", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
+    { name: "Water Filter", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
+] as const;
 
-    { name: "Ruined HandCuffs", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon", image: placeholder },
-    { name: "Burned ARC Circuitry", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon", image: placeholder },
-    { name: "Candle Holder", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon", image: placeholder },
-    { name: "Crumbled Plastic Bottle", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon", image: placeholder },
-    { name: "Damaged ARC Motion Core", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon", image: placeholder },
-    { name: "Deflated Football", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon", image: placeholder },
-    { name: "Degraded ARC Rubber", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon", image: placeholder },
-    { name: "Rusted Bolts", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon", image: placeholder },
-    { name: "Dried-Out ARC Resin", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon", image: placeholder },
-    { name: "Garlic Press", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon", image: placeholder },
-    { name: "Household Cleaner", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon", image: placeholder },
-    { name: "Ice Cream Scooper", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon", image: placeholder },
-    { name: "Impure ARC Coolant", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon", image: placeholder },
-    { name: "Metal Brackets", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon", image: placeholder },
-    { name: "Number Plate", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon", image: placeholder },
-    { name: "Ripped Safety Vest", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon", image: placeholder },
-    { name: "Tattered Clothes", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon", image: placeholder },
-    { name: "Tattered ARC Lining", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon", image: placeholder },
-    { name: "Spotter Relay", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon", image: placeholder },
-    { name: "Rusty ARC Steel", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon", image: placeholder },
-    { name: "Ruined Parachute", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon", image: placeholder },
-    { name: "Ruined Tactical Vest", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon", image: placeholder },
-    { name: "Ruined Baton", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon", image: placeholder },
-
-    { name: "Damaged Rocketeer Driver", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "common", image: placeholder },
-];
+export const items: Item[] = baseItems.map((item) => ({
+    ...item,
+    image: makeImagePath(item.name) || placeholder,
+}));
