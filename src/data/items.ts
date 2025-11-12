@@ -169,7 +169,7 @@ const baseItems = [
     { name: "Broken Flashlight", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
     { name: "Broken Guidance System", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
     { name: "Broken Handheld Radio", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
-    { name: "Broken Teaser", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
+    { name: "Broken Teser", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
     { name: "Burned ARC Circuitry", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "uncommon" },
     { name: "Camera Lens", category: "Security", tier: 0.8, value: 640, group: "Safely Recycle", rarity: "uncommon", quantity: 1 },
     { name: "Candle Holder", category: "ARC", tier: 1, value: 640, group: "Safely Recycle", rarity: "uncommon"  },
