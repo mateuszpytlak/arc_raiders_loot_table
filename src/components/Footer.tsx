@@ -14,32 +14,32 @@ export default function Footer() {
             </p>
 
             {/* --- Linki społecznościowe --- */}
-            <p className="mt-2 space-x-2">
-                <a
-                    href="https://github.com/mateuszpytlak"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-white transition-colors"
-                >
-                    GitHub
-                </a>
-                <span>•</span>
-                <a
-                    href="https://linkedin.com/in/mateuszpytlak"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-white transition-colors"
-                >
-                    LinkedIn
-                </a>
-                <span>•</span>
-                <a
-                    href={`mailto:${email}`}
-                    className="text-sky-400 hover:text-sky-300 font-medium transition-colors"
-                >
-                    {email}
-                </a>
-            </p>
+            {/*<p className="mt-2 space-x-2">*/}
+            {/*    <a*/}
+            {/*        href="https://github.com/mateuszpytlak"*/}
+            {/*        target="_blank"*/}
+            {/*        rel="noopener noreferrer"*/}
+            {/*        className="hover:text-white transition-colors"*/}
+            {/*    >*/}
+            {/*        GitHub*/}
+            {/*    </a>*/}
+            {/*    <span>•</span>*/}
+            {/*    <a*/}
+            {/*        href="https://linkedin.com/in/mateuszpytlak"*/}
+            {/*        target="_blank"*/}
+            {/*        rel="noopener noreferrer"*/}
+            {/*        className="hover:text-white transition-colors"*/}
+            {/*    >*/}
+            {/*        LinkedIn*/}
+            {/*    </a>*/}
+            {/*    <span>•</span>*/}
+            {/*    <a*/}
+            {/*        href={`mailto:${email}`}*/}
+            {/*        className="text-sky-400 hover:text-sky-300 font-medium transition-colors"*/}
+            {/*    >*/}
+            {/*        {email}*/}
+            {/*    </a>*/}
+            {/*</p>*/}
 
             {/* --- References i licencje --- */}
             <div className="mt-8 max-w-3xl mx-auto text-gray-500 leading-relaxed text-xs sm:text-sm">
