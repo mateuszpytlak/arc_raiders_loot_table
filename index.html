@@ -8,29 +8,13 @@
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=%VITE_GA_ID%"></script>
+
     <script>
-        // DataLayer + gtag
         window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-
-        // Consent Mode v2 – domyślnie "denied" (zgodne z GDPR)
-        gtag('consent', 'default', {
-            ad_storage: 'granted',
-            ad_user_data: 'granted',
-            ad_personalization: 'granted',
-            analytics_storage: 'granted',
-            functionality_storage: 'granted',
-            security_storage: 'granted'
-        });
-
-        // Inicjalizacja gtag
+        function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
 
-        // Nie wysyłaj automatycznego page_view (SPA sami wyślemy)
-        gtag('config', '%VITE_GA_ID%', {'send_page_view': false});
+        gtag('config', '%VITE_GA_ID%');
     </script>
 
 </head>
