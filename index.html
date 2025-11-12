@@ -7,17 +7,26 @@
     <title>arc-raiders-loot</title>
 
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=%VITE_GA_ID%"></script>
-
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+        const GA_ID = import.meta.env.VITE_GA_ID;
+        if (GA_ID) {
+            const gtagScript = document.createElement('script');
+            gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+            gtagScript.async = true;
+            document.head.appendChild(gtagScript);
 
-        gtag('config', '%VITE_GA_ID%', {
-            'send_page_view': false,
-            'cookie_domain': window.location.hostname
-        });
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            window.gtag = gtag;
+
+            gtag('js', new Date());
+            gtag('config', GA_ID, {
+                send_page_view: false,
+                cookie_domain: 'auto'
+            });
+        } else {
+            console.warn("⚠️ Google Analytics ID (VITE_GA_ID) not found in environment variables");
+        }
     </script>
 
 </head>
