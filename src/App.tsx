@@ -4,6 +4,7 @@ import { items } from "./data/items";
 import ItemCard from "./components/ItemCard";
 import SidePanel from "./components/SidePanel";
 import Footer from "./components/Footer";
+import CookieConsent from "./components/CookieConsent.tsx";
 
 export default function App() {
     const [query, setQuery] = useState("");
@@ -158,6 +159,7 @@ export default function App() {
                 benchLevels={benchLevels}
                 setBenchLevels={setBenchLevels}
             />
+            <CookieConsent />
             <Footer />
         </div>
     );
