@@ -8,6 +8,7 @@ export interface Item {
     image: string;
     quantity?: number;
     workshop?: string;
+    level?: number;
 }
 
 const makeImagePath = (name: string): string => {
@@ -27,10 +28,10 @@ const baseItems = [
     { name: "Rocketeer Driver", category: "ARC", tier: 0.8, value: 640, group: "Keep for Quests", rarity: "epic", quantity: 1 },
 
     { name: "Surveyor Vault", category: "ARC", tier: 0.8, value: 640, group: "Keep for Quests", rarity: "rare", quantity: 1 },
-    { name: "Antiseptic", category: "ARC", tier: 0.8, value: 640, group: "Keep for Quests", rarity: "rare", quantity: 1 },
+    { name: "Antiseptic", category: "ARC", tier: 0.8, value: 640, group: "Keep for Quests", rarity: "rare", quantity: 2 },
     { name: "Hornet Driver", category: "ARC", tier: 0.75, value: 2000, group: "Keep for Quests", rarity: "rare", quantity: 2 },
     { name: "Syringe", category: "ARC", tier: 0.75, value: 2000, group: "Keep for Quests", rarity: "rare", quantity: 1 },
-    { name: "Wasp Driver", category: "ARC", tier: 0.8, value: 640, group: "Keep for Quests", rarity: "rare", quantity: 3 },
+    { name: "Wasp Driver", category: "ARC", tier: 0.8, value: 640, group: "Keep for Quests", rarity: "rare", quantity: 2 },
     { name: "Water Pump", category: "Industrial", tier: 2, value: 1000, group: "Keep for Quests", rarity: "rare", quantity: 1 },
 
     { name: "Snitch Scanner", category: "Industrial", tier: 2, value: 1000, group: "Keep for Quests", rarity: "uncommon", quantity: 2 },
@@ -92,63 +93,63 @@ const baseItems = [
     { name: "Pop Trigger", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "common", quantity: 8 },
 
     // === Scrappy  ===
-    { name: "Dog Collar", category: "Residential", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 1, workshop: "Scrappy" },
-    { name: "Lemon", category: "Nature", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 3, workshop: "Scrappy" },
-    { name: "Apricot", category: "Nature", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 3, workshop: "Scrappy" },
-    { name: "Prickly Pear", category: "Nature", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 6, workshop: "Scrappy" },
-    { name: "Olives", category: "Nature", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 6, workshop: "Scrappy" },
-    { name: "Cat Bed", category: "Commercial", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 1, workshop: "Scrappy" },
-    { name: "Mushroom", category: "Nature", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 12, workshop: "Scrappy" },
-    { name: "Apricot", category: "Nature", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 12, workshop: "Scrappy" },
-    { name: "Very Comfortable Pillow", category: "Nature", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 3, workshop: "Scrappy" },
+    { name: "Dog Collar", category: "Residential", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 1, workshop: "Scrappy", level: 2, },
+    { name: "Lemon", category: "Nature", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 3, workshop: "Scrappy", level: 3 },
+    { name: "Apricot", category: "Nature", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 3, workshop: "Scrappy", level: 3 },
+    { name: "Prickly Pear", category: "Nature", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 6, workshop: "Scrappy", level: 4 },
+    { name: "Olives", category: "Nature", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 6, workshop: "Scrappy", level: 4 },
+    { name: "Cat Bed", category: "Commercial", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 1, workshop: "Scrappy", level: 4 },
+    { name: "Mushroom", category: "Nature", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 12, workshop: "Scrappy", level: 5 },
+    { name: "Apricot", category: "Nature", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 12, workshop: "Scrappy", level: 5 },
+    { name: "Very Comfortable Pillow", category: "Nature", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 3, workshop: "Scrappy", level: 5 },
 
     // === Gunsmith Bench  ===
-    { name: "Rusted Tools", category: "Mechanical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Gunsmith Bench" },
-    { name: "Mechanical Components", category: "Mechanical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5, workshop: "Gunsmith Bench" },
-    { name: "Wasp Driver", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 8, workshop: "Gunsmith Bench" },
-    { name: "Rusted Gear", category: "Industrial", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Gunsmith Bench" },
-    { name: "Adv. Mechanical Components", category: "Mechanical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5, workshop: "Gunsmith Bench" },
-    { name: "Sentinel Firing Core", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 4, workshop: "Gunsmith Bench" },
+    { name: "Rusted Tools", category: "Mechanical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Gunsmith Bench", level: 2 },
+    { name: "Mechanical Components", category: "Mechanical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5, workshop: "Gunsmith Bench", level: 2 },
+    { name: "Wasp Driver", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 8, workshop: "Gunsmith Bench", level: 2 },
+    { name: "Rusted Gear", category: "Industrial", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Gunsmith Bench", level: 3 },
+    { name: "Adv. Mechanical Components", category: "Mechanical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5, workshop: "Gunsmith Bench", level: 3 },
+    { name: "Sentinel Firing Core", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 4, workshop: "Gunsmith Bench", level: 3 },
 
     // === Medical Lab  ===
-    { name: "Cracked Bioscanner", category: "Medical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 2, workshop: "Medical Lab" },
-    { name: "Durable Cloth", category: "Medical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 5, workshop: "Medical Lab" },
-    { name: "Tick Pod", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 8, workshop: "Medical Lab" },
-    { name: "Rusted Shut Medical Kit", category: "Medical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Medical Lab" },
-    { name: "Antiseptic", category: "Mechanical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 8, workshop: "Medical Lab" },
-    { name: "Surveyor Vault", category: "Mechanical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5, workshop: "Medical Lab" },
+    { name: "Cracked Bioscanner", category: "Medical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 2, workshop: "Medical Lab", level: 2 },
+    { name: "Durable Cloth", category: "Medical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 5, workshop: "Medical Lab", level: 2 },
+    { name: "Tick Pod", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 8, workshop: "Medical Lab", level: 2 },
+    { name: "Rusted Shut Medical Kit", category: "Medical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Medical Lab", level: 3 },
+    { name: "Antiseptic", category: "Mechanical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 8, workshop: "Medical Lab", level: 3 },
+    { name: "Surveyor Vault", category: "Mechanical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5, workshop: "Medical Lab", level: 3 },
 
     // === Explosives Station  ===
-    { name: "Synthesized Fuel", category: "Exodus", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Explosives Station" },
-    { name: "Crude Explosives", category: "Industrial", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 5, workshop: "Explosives Station" },
-    { name: "Pop Trigger", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 5, workshop: "Explosives Station" },
-    { name: "Laboratory Reagents", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Explosives Station" },
-    { name: "Explosive Compound", category: "Industrial", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5, workshop: "Explosives Station" },
-    { name: "Rocketeer Driver", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "epic", quantity: 3, workshop: "Explosives Station" },
+    { name: "Synthesized Fuel", category: "Exodus", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Explosives Station", level: 2 },
+    { name: "Crude Explosives", category: "Industrial", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 5, workshop: "Explosives Station", level: 2 },
+    { name: "Pop Trigger", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "common", quantity: 5, workshop: "Explosives Station", level: 2 },
+    { name: "Laboratory Reagents", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Explosives Station", level: 3 },
+    { name: "Explosive Compound", category: "Industrial", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5, workshop: "Explosives Station", level: 3 },
+    { name: "Rocketeer Driver", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "epic", quantity: 3, workshop: "Explosives Station", level: 3 },
 
     // === Gear Bench  ===
-    { name: "Power Cable", category: "Commercial", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Gear Bench" },
-    { name: "Hornet Driver", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5, workshop: "Gear Bench" },
-    { name: "Electrical Components", category: "Electrical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 5, workshop: "Gear Bench" },
-    { name: "Industrial Battery", category: "Industrial", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Gear Bench" },
-    { name: "Adv. Electrical Components", category: "Electrical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5, workshop: "Gear Bench" },
-    { name: "Bastion Cell", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "epic", quantity: 6, workshop: "Gear Bench" },
+    { name: "Power Cable", category: "Commercial", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Gear Bench", level: 2 },
+    { name: "Hornet Driver", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5, workshop: "Gear Bench", level: 2 },
+    { name: "Electrical Components", category: "Electrical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 5, workshop: "Gear Bench", level: 2 },
+    { name: "Industrial Battery", category: "Industrial", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Gear Bench", level: 3 },
+    { name: "Adv. Electrical Components", category: "Electrical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5, workshop: "Gear Bench", level: 3 },
+    { name: "Bastion Cell", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "epic", quantity: 6, workshop: "Gear Bench", level: 3},
 
     // === Refinery  ===
-    { name: "Toaster", category: "Residential", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Rafinery" },
-    { name: "ARC Motion Core", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5, workshop: "Rafinery" },
-    { name: "Fireball Burner", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 8, workshop: "Rafinery" },
-    { name: "Motor", category: "Mechanical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Rafinery" },
-    { name: "ARC Circuitry", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 10, workshop: "Rafinery" },
-    { name: "Bombardier Cell", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "epic", quantity: 6, workshop: "Rafinery" },
+    { name: "Toaster", category: "Residential", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Rafinery", level: 2 },
+    { name: "ARC Motion Core", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5, workshop: "Rafinery", level: 2 },
+    { name: "Fireball Burner", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 8, workshop: "Rafinery", level: 2 },
+    { name: "Motor", category: "Mechanical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Rafinery", level: 3 },
+    { name: "ARC Circuitry", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 10, workshop: "Rafinery", level: 3 },
+    { name: "Bombardier Cell", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "epic", quantity: 6, workshop: "Rafinery", level: 3 },
 
     // === Utility Station  ===
-    { name: "Damaged Heat Sink", category: "Technological", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 2 , workshop: "Utility Station"},
-    { name: "Electrical Components", category: "Electrical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 5 , workshop: "Utility Station"},
-    { name: "Snitch Scanner", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 6 , workshop: "Utility Station"},
-    { name: "Fried Motherboard", category: "Technological", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3 , workshop: "Utility Station"},
-    { name: "Adv. Electrical Components", category: "Electrical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5 , workshop: "Utility Station"},
-    { name: "Leaper Pulse Unit", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "epic", quantity: 4, workshop: "Utility Station"},
+    { name: "Damaged Heat Sink", category: "Technological", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 2 , workshop: "Utility Station", level: 2 },
+    { name: "Electrical Components", category: "Electrical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 5 , workshop: "Utility Station", level: 2 },
+    { name: "Snitch Scanner", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 6 , workshop: "Utility Station", level: 2 },
+    { name: "Fried Motherboard", category: "Technological", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3 , workshop: "Utility Station", level: 3 },
+    { name: "Adv. Electrical Components", category: "Electrical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5 , workshop: "Utility Station", level: 3 },
+    { name: "Leaper Pulse Unit", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "epic", quantity: 4, workshop: "Utility Station", level: 3 },
 
 
 
