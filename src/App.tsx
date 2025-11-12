@@ -24,7 +24,7 @@ export default function App() {
 
     return (
         <div className="min-h-screen flex flex-col bg-gray-950 text-white">
-            <main className="flex-1 px-6 pb-12">
+            <main className="flex-1 px-6 pb-12 max-w-7xl mx-auto">
                 {/* 🔍 Pasek wyszukiwania */}
                 <div className="flex justify-center my-8 sticky top-0 bg-gray-950/80 backdrop-blur-sm py-4 z-10">
                     <input
@@ -57,7 +57,7 @@ export default function App() {
                                 {group}
                             </h2>
 
-                            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
                                 {groupItems.map((item) => (
                                     <ItemCard key={item.name} {...item} />
                                 ))}
