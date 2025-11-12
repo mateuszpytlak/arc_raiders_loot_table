@@ -1,11 +1,10 @@
 export default function Footer() {
-    const user = "mpytlak.ar";
-    const domain = "gmail.com";
-    const email = `${user}@${domain}`;
+    // const user = "mpytlak.ar";
+    // const domain = "gmail.com";
+    // const email = `${user}@${domain}`;
 
     return (
         <footer className="mt-16 border-t border-gray-700/50 py-8 text-center text-sm text-gray-400">
-            {/* --- Autor i technologia --- */}
             <p>
                 © {new Date().getFullYear()} Mateusz Pytlak • Built with{" "}
                 <span className="text-sky-400 font-medium">React</span>,{" "}
