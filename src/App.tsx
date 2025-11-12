@@ -2,10 +2,25 @@ import { useState, useEffect } from "react";
 import { trackPageview } from "./lib/ga";
 import { items } from "./data/items";
 import ItemCard from "./components/ItemCard";
+import SidePanel from "./components/SidePanel";
 import Footer from "./components/Footer";
 
 export default function App() {
     const [query, setQuery] = useState("");
+    const [panelOpen, setPanelOpen] = useState(false);
+    const [benchLevels, setBenchLevels] = useState(() => {
+        const saved = localStorage.getItem("benchLevels");
+        return saved
+            ? JSON.parse(saved)
+            : {
+                gunsmith: 1,
+                medical: 1,
+                refinery: 1,
+                utility: 1,
+                scrappy: 1,
+            };
+    });
+
 
     const groups = [
         "Keep for Quests",
@@ -18,14 +33,29 @@ export default function App() {
         trackPageview();
     }, []);
 
+    useEffect(() => {
+        localStorage.setItem("benchLevels", JSON.stringify(benchLevels));
+    }, [benchLevels]);
+
     const filtered = items.filter((item) =>
         item.name.toLowerCase().includes(query.toLowerCase())
     );
 
     return (
         <div className="min-h-screen flex flex-col bg-gray-950 text-white">
+            <div className="group fixed top-6 right-6 z-30">
+                <button
+                    onClick={() => setPanelOpen(true)}
+                    className="bg-sky-600 hover:bg-sky-500 text-white font-semibold rounded-full p-3 shadow-lg transition focus:outline-none focus:ring-2 focus:ring-sky-400"
+                >
+                    ⚙️
+                </button>
+
+                <div className="absolute right-full top-1/2 -translate-y-1/2 mr-3 px-3 py-1 text-xs bg-gray-800 text-gray-300 rounded-md opacity-0 group-hover:opacity-100 group-hover:translate-x-0 -translate-x-2 transition-all duration-200 whitespace-nowrap shadow-lg">
+                    Set your workbench levels
+                </div>
+            </div>
             <main className="flex-1 px-6 pb-12 max-w-7xl mx-auto">
-                {/* 🔍 Pasek wyszukiwania */}
                 <div className="flex justify-center my-8 sticky top-0 bg-gray-950/80 backdrop-blur-sm py-4 z-10">
                     <input
                         type="text"
@@ -48,7 +78,6 @@ export default function App() {
 
                     if (groupItems.length === 0) return null;
 
-                    // 🧩 jeśli to "Upgrading Benches", grupujemy po workshop
                     const byWorkshop =
                         group === "Upgrading Benches"
                             ? Array.from(new Set(groupItems.map((i) => i.workshop).filter(Boolean)))
@@ -65,7 +94,23 @@ export default function App() {
 
                             {group === "Upgrading Benches" && byWorkshop.length > 0 ? (
                                 byWorkshop.map((ws) => {
-                                    const wsItems = groupItems.filter((i) => i.workshop === ws);
+                                    let wsItems = groupItems.filter((i) => i.workshop === ws);
+
+                                    if (group === "Upgrading Benches") {
+                                        wsItems = wsItems.filter((i) => {
+                                            const level = i.level ?? 1;
+
+                                            if (ws === "Gunsmith Bench") return level > benchLevels.gunsmith;
+                                            if (ws === "Medical Lab") return level > benchLevels.medical;
+                                            if (ws === "Refinery") return level > benchLevels.refinery;
+                                            if (ws === "Utility Station") return level > benchLevels.utility;
+                                            if (ws === "Scrappy") return level > benchLevels.scrappy;
+
+                                            return true;
+                                        });
+                                    }
+
+
                                     if (wsItems.length === 0) return null;
                                     return (
                                         <div key={ws} className="mb-10">
@@ -107,7 +152,12 @@ export default function App() {
                     );
                 })}
             </main>
-
+            <SidePanel
+                open={panelOpen}
+                onClose={() => setPanelOpen(false)}
+                benchLevels={benchLevels}
+                setBenchLevels={setBenchLevels}
+            />
             <Footer />
         </div>
     );
