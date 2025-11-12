@@ -48,6 +48,12 @@ export default function App() {
 
                     if (groupItems.length === 0) return null;
 
+                    // 🧩 jeśli to "Upgrading Benches", grupujemy po workshop
+                    const byWorkshop =
+                        group === "Upgrading Benches"
+                            ? Array.from(new Set(groupItems.map((i) => i.workshop).filter(Boolean)))
+                            : [];
+
                     return (
                         <section
                             key={group}
@@ -57,11 +63,46 @@ export default function App() {
                                 {group}
                             </h2>
 
-                            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-                                {groupItems.map((item) => (
-                                    <ItemCard key={item.name} {...item} />
-                                ))}
-                            </div>
+                            {group === "Upgrading Benches" && byWorkshop.length > 0 ? (
+                                byWorkshop.map((ws) => {
+                                    const wsItems = groupItems.filter((i) => i.workshop === ws);
+                                    if (wsItems.length === 0) return null;
+                                    return (
+                                        <div key={ws} className="mb-10">
+                                            <h3 className="text-xl font-semibold mb-6 text-sky-400">{ws}</h3>
+
+                                            {Array.from(new Set(wsItems.map((i) => i.level))).sort((a, b) => (a ?? 0) - (b ?? 0)).map((lvl) => {
+                                                const lvlItems = wsItems.filter((i) => i.level === lvl);
+                                                if (lvlItems.length === 0) return null;
+
+                                                return (
+                                                    <div key={lvl} className="mb-8">
+                                                        <div className="flex items-center gap-3 mb-3">
+                                                          <span
+                                                              className="inline-block bg-gray-800 text-gray-300 text-xs font-semibold px-3 py-1 rounded-full border border-gray-700">
+                                                            LEVEL {lvl}
+                                                          </span>
+                                                            <div className="flex-1 h-px bg-gray-700/50" />
+                                                        </div>
+
+                                                        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+                                                            {lvlItems.map((item) => (
+                                                                <ItemCard key={item.name} {...item} />
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    );
+                                })
+                            ) : (
+                                <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+                                    {groupItems.map((item) => (
+                                        <ItemCard key={item.name} {...item} />
+                                    ))}
+                                </div>
+                            )}
                         </section>
                     );
                 })}
