@@ -68,29 +68,29 @@ const baseItems = [
     { name: "Metal Parts", category: "Electrical", tier: 0.8, value: 640, group: "Keep for Projects", rarity: "common", quantity: 200 },
 
     // === UPGRADING BENCHES ===
-    { name: "Bastion Cell", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "epic", quantity: 9 },
-    { name: "Bombardier Cell", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "epic", quantity: 5 },
-    { name: "Rocketeer Driver", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "epic", quantity: 4 },
-
-    { name: "Wasp Driver", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 8 },
-    { name: "Hornet Driver", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 8 },
-    { name: "Cooling Fan", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5 },
-    { name: "Sentinel Firing Core", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 4 },
-    { name: "Fried Motherboard", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3 },
-    { name: "Rusted Gear", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3 },
-
-    { name: "Rusted Shut Medical Kit", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3 },
-    { name: "Power Cable", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3 },
-    { name: "Motor", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3 },
-    { name: "Laboratory Reagents", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3 },
-    { name: "Cracked Bioscanner", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 2 },
-    { name: "Surveyor Vault", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 2 },
-    { name: "Toaster", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3 },
-
-    { name: "Tick Pod", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 8 },
-    { name: "Snitch Scanner", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 8 },
-
-    { name: "Pop Trigger", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "common", quantity: 8 },
+    // { name: "Bastion Cell", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "epic", quantity: 9 },
+    // { name: "Bombardier Cell", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "epic", quantity: 5 },
+    // { name: "Rocketeer Driver", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "epic", quantity: 4 },
+    //
+    // { name: "Wasp Driver", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 8 },
+    // { name: "Hornet Driver", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 8 },
+    // { name: "Cooling Fan", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5 },
+    // { name: "Sentinel Firing Core", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 4 },
+    // { name: "Fried Motherboard", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3 },
+    // { name: "Rusted Gear", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3 },
+    //
+    // { name: "Rusted Shut Medical Kit", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3 },
+    // { name: "Power Cable", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3 },
+    // { name: "Motor", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3 },
+    // { name: "Laboratory Reagents", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3 },
+    // { name: "Cracked Bioscanner", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 2 },
+    // { name: "Surveyor Vault", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 2 },
+    // { name: "Toaster", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3 },
+    //
+    // { name: "Tick Pod", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 8 },
+    // { name: "Snitch Scanner", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 8 },
+    //
+    // { name: "Pop Trigger", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "common", quantity: 8 },
 
     // === Scrappy  ===
     { name: "Dog Collar", category: "Residential", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 1, workshop: "Scrappy", level: 2, },
