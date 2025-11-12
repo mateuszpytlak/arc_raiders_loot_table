@@ -16,7 +16,7 @@
 
         gtag('config', '%VITE_GA_ID%', {
             'send_page_view': false,
-            'cookie_domain': 'auto' // 🔹 pozwala Google samodzielnie dobrać poprawną domenę
+            'cookie_domain': window.location.hostname
         });
     </script>
 
