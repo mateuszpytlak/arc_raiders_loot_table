@@ -46,7 +46,7 @@ export default function App() {
             <div className="group fixed top-6 right-6 z-30">
                 <button
                     onClick={() => setPanelOpen(true)}
-                    className="bg-sky-600 hover:bg-sky-500 text-white font-semibold rounded-full p-3 shadow-lg transition focus:outline-none focus:ring-2 focus:ring-sky-400"
+                    className="cursor-pointer bg-sky-600 hover:bg-sky-500 text-white font-semibold rounded-full p-3 shadow-lg transition focus:outline-none focus:ring-2 focus:ring-sky-400"
                 >
                     ⚙️
                 </button>

@@ -43,7 +43,7 @@ export default function SidePanel({
                 </h2>
                 <button
                     onClick={onClose}
-                    className="text-gray-400 hover:text-white hover:rotate-90 transform transition-transform duration-200"
+                    className="cursor-pointer text-gray-400 hover:text-white hover:rotate-90 transform transition-transform duration-200"
                 >
                     ✕
                 </button>
@@ -54,53 +54,53 @@ export default function SidePanel({
                 {benches.map(({ key, label }) => {
                     const level = benchLevels[key];
                     return (
-                        <div key={key} className="pb-4 border-b border-gray-800/60 last:border-0">
-                            <label className="block mb-2 text-sm text-gray-400">
+                        <div key={key} className="pb-6 border-b border-gray-800/60 last:border-0">
+                            <label className="block mb-3 text-sm text-gray-400 font-medium">
                                 {label}
                             </label>
-                            <select
-                                value={level}
-                                onChange={(e) =>
-                                    setBenchLevels((prev) => ({
-                                        ...prev,
-                                        [key]: Number(e.target.value),
-                                    }))
-                                }
-                                className="w-full bg-gray-800/60 border border-gray-700 rounded-md p-2 text-gray-100 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
-                            >
-                                <option value={1}>Level 1</option>
-                                <option value={2}>Level 2</option>
-                                <option value={3}>Level 3</option>
-                            </select>
 
-                            {/* Pasek postępu poziomów */}
-                            <div className="flex justify-between items-center mt-3">
+                            {/* 🔹 Klikalne kropki */}
+                            <div className="flex items-center justify-between mb-2 select-none">
                                 {[1, 2, 3].map((lvl) => (
-                                    <div
+                                    <button
                                         key={lvl}
-                                        className={`h-3 w-3 rounded-full transition-all duration-300 ${
+                                        onClick={() =>
+                                            setBenchLevels((prev) => ({ ...prev, [key]: lvl }))
+                                        }
+                                        className={`cursor-pointer h-4 w-4 rounded-full transition-all duration-300 
+                            ${
                                             lvl <= level
-                                                ? "bg-sky-400 shadow-[0_0_8px_rgba(56,189,248,0.7)]"
-                                                : "bg-gray-700"
+                                                ? "bg-sky-400 shadow-[0_0_8px_rgba(56,189,248,0.7)] scale-110"
+                                                : "bg-gray-700 hover:bg-gray-600"
                                         }`}
                                         title={`Level ${lvl}`}
                                     />
                                 ))}
                             </div>
 
-                            <div className="relative mt-2 h-1 bg-gray-800 rounded-full overflow-hidden">
+                            {/* 🔹 Labelki pod kropkami */}
+                            <div className="flex justify-between text-[10px] uppercase tracking-wider text-gray-500 mb-2">
+                                <span>Lvl 1</span>
+                                <span>Lvl 2</span>
+                                <span>Lvl 3</span>
+                            </div>
+
+                            {/* 🔹 Pasek progresu */}
+                            <div className="relative h-1 bg-gray-800 rounded-full overflow-hidden mb-2">
                                 <div
                                     className="absolute top-0 left-0 h-full bg-sky-500 transition-all duration-500"
                                     style={{ width: `${(level / 3) * 100}%` }}
-                                ></div>
+                                />
                             </div>
 
-                            <p className="mt-3 text-xs text-gray-400">
+                            {/* 🔹 Opis */}
+                            <p className="text-xs text-gray-400">
                                 Currently on{" "}
-                                <span className="text-sky-400 font-semibold">Level {level}</span> — showing materials needed to reach{" "}
+                                <span className="text-sky-400 font-semibold">Level {level}</span> — showing
+                                materials needed to reach{" "}
                                 <span className="text-sky-400 font-semibold">
-                                    Level {level < 3 ? 3 : level}
-                                </span>.
+                    Level {level < 3 ? 3 : level}
+                </span>.
                             </p>
                         </div>
                     );
