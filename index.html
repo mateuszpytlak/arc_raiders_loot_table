@@ -15,8 +15,8 @@
         gtag('js', new Date());
 
         gtag('config', '%VITE_GA_ID%', {
-            'send_page_view': false,
-            'cookie_domain': 'auto',
+            'send_page_view': true,
+            'cookie_domain': window.location.hostname,
         });
     </script>
 
