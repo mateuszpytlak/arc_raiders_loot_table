@@ -2,6 +2,7 @@ import { useState } from "react";
 import { items } from "./data/items";
 import ItemCard from "./components/ItemCard";
 import SearchBar from "./components/SearchBar";
+import Footer from "./components/Footer.tsx";
 
 const rarityOrder = {
     epic: 1,
@@ -49,6 +50,7 @@ export default function App() {
                     );
                 })}
             </div>
+            <Footer />
         </div>
     );
 }
