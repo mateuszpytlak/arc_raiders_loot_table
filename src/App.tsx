@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { trackPageview } from "./lib/ga";
 import { items } from "./data/items";
 import ItemCard from "./components/ItemCard";
 import Footer from "./components/Footer";
@@ -12,6 +13,10 @@ export default function App() {
         "Upgrading Benches",
         "Safely Recycle",
     ];
+
+    useEffect(() => {
+        trackPageview();
+    }, []);
 
     const filtered = items.filter((item) =>
         item.name.toLowerCase().includes(query.toLowerCase())
