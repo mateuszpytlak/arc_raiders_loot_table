@@ -101,15 +101,24 @@ export default function App() {
                                         wsItems = wsItems.filter((i) => {
                                             const level = i.level ?? 1;
 
-                                            if (ws === "Gunsmith Bench") return level > benchLevels.gunsmith;
-                                            if (ws === "Medical Lab") return level > benchLevels.medical;
-                                            if (ws === "Refinery") return level > benchLevels.refinery;
-                                            if (ws === "Utility Station") return level > benchLevels.utility;
-                                            if (ws === "Scrappy") return level > benchLevels.scrappy;
+                                            // pobieramy bieżący poziom
+                                            let current = 1;
+                                            let max = 3;
 
-                                            return true;
+                                            if (ws === "Gunsmith Bench") current = benchLevels.gunsmith;
+                                            else if (ws === "Medical Lab") current = benchLevels.medical;
+                                            else if (ws === "Refinery") current = benchLevels.refinery;
+                                            else if (ws === "Utility Station") current = benchLevels.utility;
+                                            else if (ws === "Scrappy") {
+                                                current = benchLevels.scrappy;
+                                                max = 5;
+                                            }
+
+                                            // pokazujemy wszystkie itemy potrzebne do osiągnięcia max levelu (czyli 3 albo 5)
+                                            return level > current && level <= max;
                                         });
                                     }
+
 
 
                                     if (wsItems.length === 0) return null;
