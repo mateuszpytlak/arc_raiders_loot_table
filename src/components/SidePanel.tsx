@@ -2,13 +2,13 @@ interface Props {
     open: boolean;
     onClose: () => void;
     benchLevels: Record<
-        "gunsmith" | "medical" | "refinery" | "utility" | "scrappy",
+        "scrappy" | "gunsmith" | "explosives" | "medical" | "refinery" | "utility",
         number
     >;
     setBenchLevels: React.Dispatch<
         React.SetStateAction<
             Record<
-                "gunsmith" | "medical" | "refinery" | "utility" | "scrappy",
+                "scrappy" | "gunsmith" | "explosives" | "medical" | "refinery" | "utility",
                 number
             >
         >
@@ -16,11 +16,12 @@ interface Props {
 }
 
 const benches = [
+    { key: "scrappy", label: "Scrappy" },
     { key: "gunsmith", label: "Gunsmith Bench" },
+    { key: "explosives", label: "Explosives Station" },
     { key: "medical", label: "Medical Lab" },
     { key: "refinery", label: "Refinery" },
     { key: "utility", label: "Utility Station" },
-    { key: "scrappy", label: "Scrappy" },
 ] as const;
 
 export default function SidePanel({
@@ -37,7 +38,6 @@ export default function SidePanel({
                 open ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
             }`}
         >
-            {/* 🔹 Nagłówek panelu */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-gray-800 bg-gradient-to-r from-sky-700/30 to-transparent">
                 <h2 className="text-lg font-semibold text-sky-300 tracking-wide">
                     Workbench Settings
@@ -50,7 +50,6 @@ export default function SidePanel({
                 </button>
             </div>
 
-            {/* 🔹 Zawartość */}
             <div className="p-6 space-y-8 text-gray-200 overflow-y-auto h-[calc(100%-64px)]">
                 {benches.map(({ key, label }) => {
                     const level = benchLevels[key];
@@ -98,7 +97,18 @@ export default function SidePanel({
                                 <div
                                     className="absolute top-0 left-0 h-full bg-sky-500 transition-all duration-500"
                                     style={{
-                                        width: `${(level / maxLevel) * 100}%`,
+                                        width: (() => {
+                                            const minPercent = 10;
+                                            const lv = level ?? 1;
+
+                                            if (lv <= 1) return `${minPercent}%`;
+
+                                            const pct =
+                                                minPercent +
+                                                ((lv - 1) / (maxLevel - 1)) * (100 - minPercent);
+
+                                            return `${pct}%`;
+                                        })(),
                                     }}
                                 />
                             </div>

@@ -16,6 +16,7 @@ export default function App() {
             : {
                 gunsmith: 1,
                 medical: 1,
+                explosives: 1,
                 refinery: 1,
                 utility: 1,
                 scrappy: 1,
@@ -109,6 +110,7 @@ export default function App() {
                                             else if (ws === "Medical Lab") current = benchLevels.medical;
                                             else if (ws === "Refinery") current = benchLevels.refinery;
                                             else if (ws === "Utility Station") current = benchLevels.utility;
+                                            else if (ws === "Explosives Station") current = benchLevels.explosives;
                                             else if (ws === "Scrappy") {
                                                 current = benchLevels.scrappy;
                                                 max = 5;
