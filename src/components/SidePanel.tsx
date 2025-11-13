@@ -1,28 +1,21 @@
-interface Props {
+import type { Dispatch, SetStateAction } from "react";
+import type { BenchLevels, BenchKey } from "../types/benches";
+
+type Props = {
     open: boolean;
     onClose: () => void;
-    benchLevels: Record<
-        "scrappy" | "gunsmith" | "explosives" | "medical" | "refinery" | "utility",
-        number
-    >;
-    setBenchLevels: React.Dispatch<
-        React.SetStateAction<
-            Record<
-                "scrappy" | "gunsmith" | "explosives" | "medical" | "refinery" | "utility",
-                number
-            >
-        >
-    >;
-}
+    benchLevels: BenchLevels;
+    setBenchLevels: Dispatch<SetStateAction<BenchLevels>>;
+};
 
-const benches = [
-    { key: "scrappy", label: "Scrappy" },
-    { key: "gunsmith", label: "Gunsmith Bench" },
-    { key: "explosives", label: "Explosives Station" },
-    { key: "medical", label: "Medical Lab" },
-    { key: "refinery", label: "Refinery" },
-    { key: "utility", label: "Utility Station" },
-] as const;
+const benches: { key: BenchKey; label: string; maxLevel: number }[] = [
+    { key: "gunsmith", label: "Gunsmith Bench", maxLevel: 3 },
+    { key: "medical", label: "Medical Lab", maxLevel: 3 },
+    { key: "explosives", label: "Explosives Station", maxLevel: 3 },
+    { key: "refinery", label: "Refinery", maxLevel: 3 },
+    { key: "utility", label: "Utility Station", maxLevel: 3 },
+    { key: "scrappy", label: "Scrappy", maxLevel: 5 },
+];
 
 export default function SidePanel({
                                       open,
@@ -34,10 +27,12 @@ export default function SidePanel({
 
     return (
         <aside
-            className={`fixed top-0 right-0 h-full w-1/5 min-w-[320px] bg-gradient-to-b from-gray-900 to-gray-950 border-l border-gray-800 shadow-2xl z-50 transform transition-all duration-500 ease-in-out ${
-                open ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
-            }`}
+            className={`fixed top-0 right-0 h-full w-1/5 min-w-[320px] bg-gradient-to-b 
+                from-gray-900 to-gray-950 border-l border-gray-800 shadow-2xl z-50 
+                transform transition-all duration-500 ease-in-out
+                ${open ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"}`}
         >
+            {/* Header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-gray-800 bg-gradient-to-r from-sky-700/30 to-transparent">
                 <h2 className="text-lg font-semibold text-sky-300 tracking-wide">
                     Workbench Settings
@@ -50,33 +45,29 @@ export default function SidePanel({
                 </button>
             </div>
 
+            {/* Body */}
             <div className="p-6 space-y-8 text-gray-200 overflow-y-auto h-[calc(100%-64px)]">
-                {benches.map(({ key, label }) => {
-                    const level = benchLevels[key];
-                    const maxLevel = key === "scrappy" ? 5 : 3;
+                {benches.map(({ key, label, maxLevel }) => {
+                    const currentLevel = benchLevels[key];
+                    const progress = Math.max(10, (currentLevel / maxLevel) * 100);
 
                     return (
-                        <div
-                            key={key}
-                            className="pb-6 border-b border-gray-800/60 last:border-0"
-                        >
+                        <div key={key} className="pb-6 border-b border-gray-800/60 last:border-0">
                             <label className="block mb-3 text-sm text-gray-400 font-medium">
                                 {label}
                             </label>
 
-                            {/* 🔹 Klikalne kropki */}
+                            {/* Dots */}
                             <div className="flex items-center justify-between mb-2 select-none">
                                 {Array.from({ length: maxLevel }, (_, i) => i + 1).map((lvl) => (
                                     <button
                                         key={lvl}
                                         onClick={() =>
-                                            setBenchLevels((prev) => ({
-                                                ...prev,
-                                                [key]: lvl,
-                                            }))
+                                            setBenchLevels((prev) => ({ ...prev, [key]: lvl }))
                                         }
-                                        className={`cursor-pointer h-4 w-4 rounded-full transition-all duration-300 ${
-                                            lvl <= level
+                                        className={`cursor-pointer h-4 w-4 rounded-full transition-all duration-300 
+                                            ${
+                                            lvl <= currentLevel
                                                 ? "bg-sky-400 shadow-[0_0_8px_rgba(56,189,248,0.7)] scale-110"
                                                 : "bg-gray-700 hover:bg-gray-600"
                                         }`}
@@ -85,44 +76,26 @@ export default function SidePanel({
                                 ))}
                             </div>
 
-                            {/* 🔹 Labelki pod kropkami */}
+                            {/* Dot labels */}
                             <div className="flex justify-between text-[10px] uppercase tracking-wider text-gray-500 mb-2">
                                 {Array.from({ length: maxLevel }, (_, i) => (
                                     <span key={i}>Lvl {i + 1}</span>
                                 ))}
                             </div>
 
-                            {/* 🔹 Pasek progresu */}
+                            {/* Progress bar */}
                             <div className="relative h-1 bg-gray-800 rounded-full overflow-hidden mb-2">
                                 <div
                                     className="absolute top-0 left-0 h-full bg-sky-500 transition-all duration-500"
-                                    style={{
-                                        width: (() => {
-                                            const minPercent = 10;
-                                            const lv = level ?? 1;
-
-                                            if (lv <= 1) return `${minPercent}%`;
-
-                                            const pct =
-                                                minPercent +
-                                                ((lv - 1) / (maxLevel - 1)) * (100 - minPercent);
-
-                                            return `${pct}%`;
-                                        })(),
-                                    }}
+                                    style={{ width: `${progress}%` }}
                                 />
                             </div>
 
-                            {/* 🔹 Opis */}
                             <p className="text-xs text-gray-400">
                                 Currently on{" "}
-                                <span className="text-sky-400 font-semibold">
-                                    Level {level}
-                                </span>{" "}
-                                — showing materials needed to reach{" "}
-                                <span className="text-sky-400 font-semibold">
-                                    Level {maxLevel}
-                                </span>.
+                                <span className="text-sky-400 font-semibold">Level {currentLevel}</span> — showing
+                                materials needed to reach{" "}
+                                <span className="text-sky-400 font-semibold">Level {maxLevel}</span>.
                             </p>
                         </div>
                     );

@@ -17,8 +17,8 @@ const rarityBg: Record<Item["rarity"], string> = {
 export default function ItemCard({
                                      name,
                                      category,
-                                     tier,
-                                     value,
+                                     // tier,
+                                     // value,
                                      rarity,
                                      image,
                                      quantity,
@@ -28,23 +28,25 @@ export default function ItemCard({
             className={`rounded-xl overflow-hidden border ${rarityColors[rarity]} ${rarityBg[rarity]} hover:shadow-lg transition`}
         >
             <div className="flex justify-center items-center bg-gray-900/50 p-3">
-                <img
-                    src={image || "https://placehold.co/128x128?text=Item"}
-                    alt={name}
-                    className="w-24 h-24 object-contain"
-                />
+                <div className="w-full max-w-[220px] aspect-[220/120] flex items-center justify-center">
+                    <img
+                        src={image || "https://placehold.co/128x128?text=Item"}
+                        alt={name}
+                        className="w-full h-full object-contain"
+                    />
+                </div>
             </div>
             <div className="p-4">
                 <h2 className="font-semibold text-lg text-white flex items-center justify-between">
                     <span>{name}</span>
                     {quantity && (
-                        <span className="text-sm text-gray-400 ml-2">{quantity}×</span>
+                        <span className="text-xl text-orange-400 ml-2">×{quantity}</span>
                     )}
                 </h2>
                 <p className="text-sm text-gray-400">{category}</p>
                 <div className="mt-2 flex justify-between text-sm text-gray-300">
-                    <span>Tier: {tier}</span>
-                    <span>{value}</span>
+                    {/*<span>Tier: {tier}</span>*/}
+                    {/*<span>{value}</span>*/}
                 </div>
             </div>
         </div>
