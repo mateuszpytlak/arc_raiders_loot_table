@@ -132,12 +132,12 @@ const baseItems = [
     { name: "Bastion Cell", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "epic", quantity: 6, workshop: "Gear Bench", level: 3},
 
     // === Refinery  ===
-    { name: "Toaster", category: "Residential", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Rafinery", level: 2 },
-    { name: "ARC Motion Core", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5, workshop: "Rafinery", level: 2 },
-    { name: "Fireball Burner", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 8, workshop: "Rafinery", level: 2 },
-    { name: "Motor", category: "Mechanical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Rafinery", level: 3 },
-    { name: "ARC Circuitry", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 10, workshop: "Rafinery", level: 3 },
-    { name: "Bombardier Cell", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "epic", quantity: 6, workshop: "Rafinery", level: 3 },
+    { name: "Toaster", category: "Residential", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Refinery", level: 2 },
+    { name: "ARC Motion Core", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 5, workshop: "Refinery", level: 2 },
+    { name: "Fireball Burner", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "uncommon", quantity: 8, workshop: "Refinery", level: 2 },
+    { name: "Motor", category: "Mechanical", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 3, workshop: "Refinery", level: 3 },
+    { name: "ARC Circuitry", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 10, workshop: "Refinery", level: 3 },
+    { name: "Bombardier Cell", category: "ARC", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "epic", quantity: 6, workshop: "Refinery", level: 3 },
 
     // === Utility Station  ===
     { name: "Damaged Heat Sink", category: "Technological", tier: 1, value: 5000, group: "Upgrading Benches", rarity: "rare", quantity: 2 , workshop: "Utility Station", level: 2 },
