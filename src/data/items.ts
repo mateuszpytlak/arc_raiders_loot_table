@@ -11,15 +11,11 @@ export interface Item {
     level?: number;
 }
 
-const makeImagePath = (name: string): string => {
-    const fileName = name
+const normalize = (name: string) =>
+    name
         .toLowerCase()
-        .replace(/[^\w\s]/g, "") // usuń znaki specjalne
-        .replace(/\s+/g, "_") + ".webp";
-    return `/images/items/${fileName}`;
-};
-
-const placeholder = "https://placehold.co/128x128?text=Item";
+        .replace(/[^\w\s]/g, "")
+        .replace(/\s+/g, "_");
 
 const baseItems = [
 // === KEEP FOR QUESTS ===
@@ -221,7 +217,7 @@ const baseItems = [
     { name: "Water Filter", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
 ] as const;
 
-export const items: Item[] = baseItems.map((item) => ({
+export const items: Item[] = baseItems.map(item => ({
     ...item,
-    image: makeImagePath(item.name) || placeholder,
+    image: `/images/items/${normalize(item.name)}.webp`
 }));
