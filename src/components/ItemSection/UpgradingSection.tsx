@@ -5,9 +5,10 @@ import type { Item } from "../../data/items";
 type Props = {
     items: Item[];
     benchLevels: BenchLevels;
+    compactMode: boolean;
 };
 
-export default function UpgradingSection({ items, benchLevels }: Props) {
+export default function UpgradingSection({ items, benchLevels, compactMode }: Props) {
     const workshops: string[] = Array.from(
         new Set(
             items
@@ -27,6 +28,7 @@ export default function UpgradingSection({ items, benchLevels }: Props) {
                         workshop={ws}
                         items={wsItems}
                         benchLevels={benchLevels}
+                        compactMode={compactMode}
                     />
                 );
             })}

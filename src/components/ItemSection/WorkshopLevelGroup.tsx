@@ -7,9 +7,10 @@ interface Props {
     workshop: string;
     items: Item[];
     benchLevels: BenchLevels;
+    compactMode: boolean;
 }
 
-export default function WorkshopLevelGroup({ workshop, items, benchLevels }: Props) {
+export default function WorkshopLevelGroup({ workshop, items, benchLevels, compactMode }: Props) {
     // 🔹 LOCAL COLLAPSE STATE dla tej jednej pod-grupy
     const [collapsed, setCollapsed] = useState(false);
 
@@ -90,7 +91,7 @@ export default function WorkshopLevelGroup({ workshop, items, benchLevels }: Pro
                                 }`}
                             >
                                 {lvlItems.map((item) => (
-                                    <ItemCard key={item.name} {...item} />
+                                    <ItemCard key={item.name} {...item} compact={compactMode} />
                                 ))}
                             </div>
 

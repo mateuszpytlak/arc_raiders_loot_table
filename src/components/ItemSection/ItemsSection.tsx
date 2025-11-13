@@ -1,20 +1,20 @@
-import type { Item } from "../../data/items";
-import type { BenchLevels } from "../../types/benches";
+import type {Item} from "../../data/items";
+import type {BenchLevels} from "../../types/benches";
 import ItemGroup from "./ItemGroup";
 import UpgradingSection from "./UpgradingSection";
 import ItemCard from "../ItemCard";
+import type {Dispatch, SetStateAction} from "react";
 
 type Props = {
     items: Item[];
     benchLevels: BenchLevels;
-
     collapsedGroups: Record<Item["group"], boolean>;
-    setCollapsedGroups: React.Dispatch<
-        React.SetStateAction<Record<Item["group"], boolean>>
-    >;
-
     expandAll: () => void;
     collapseAll: () => void;
+    setCollapsedGroups: Dispatch<
+        SetStateAction<Record<Item["group"], boolean>>
+    >;
+    compactMode: boolean;
 };
 
 const GROUPS: Item["group"][] = [
@@ -31,6 +31,7 @@ export default function ItemsSection({
                                          setCollapsedGroups,
                                          expandAll,
                                          collapseAll,
+                                         compactMode,
                                      }: Props) {
 
     const toggleGroup = (group: Item["group"]) => {
@@ -74,18 +75,21 @@ export default function ItemsSection({
                         title={group}
                         collapsed={collapsed}
                         onToggle={() => toggleGroup(group)}
+                        compactMode={compactMode}
                     >
                         {group === "Upgrading Benches" ? (
                             <UpgradingSection
                                 items={groupItems}
                                 benchLevels={benchLevels}
+                                compactMode={compactMode}
                             />
                         ) : (
-                            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-                                {groupItems.map((item) => (
-                                    <ItemCard key={item.name} {...item} />
+                            <div className={`grid gap-4 sm:grid-cols-2 md:grid-cols-3 ${compactMode ? "lg:grid-cols-6" : "lg:grid-cols-5"}`}>
+                                {groupItems.map(item => (
+                                    <ItemCard key={item.name} {...item} compact={compactMode} />
                                 ))}
                             </div>
+
                         )}
                     </ItemGroup>
                 );
