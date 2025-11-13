@@ -41,7 +41,7 @@ export default function WorkshopLevelGroup({ workshop, items, benchLevels }: Pro
     });
 
     return (
-        <div className="mb-10">
+        <div className="mb-3">
 
             {/* 🔹 Nagłówek warsztatu z toggle */}
             <button
