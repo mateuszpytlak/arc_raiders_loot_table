@@ -12,7 +12,7 @@ export default function UpgradingSection({ items, benchLevels }: Props) {
         new Set(
             items
                 .map((i) => i.workshop)
-                .filter((w): w is string => Boolean(w)) // <- upewniamy się, że to string
+                .filter((w): w is string => Boolean(w))
         )
     );
 
