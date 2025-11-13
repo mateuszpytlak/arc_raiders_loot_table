@@ -40,8 +40,8 @@ export default function ItemGroup({title, collapsed, onToggle, children}: Props)
             </button>
             <div
                 className={`
-                    transition-all duration-500 overflow-hidden
-                    ${collapsed ? "max-h-0 opacity-0 mt-0" : "max-h-[2000px] opacity-100 mt-6"}
+                    transition-all duration-300 ease-in-out overflow-hidden origin-top
+                    ${collapsed ? "opacity-0 scale-y-0 h-0" : "opacity-100 scale-y-100 h-auto mt-6"}
                 `}
             >
                 {children}
