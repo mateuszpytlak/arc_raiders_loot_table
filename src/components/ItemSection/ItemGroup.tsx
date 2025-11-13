@@ -4,6 +4,7 @@ type Props = {
     title: string;
     collapsed: boolean;
     onToggle: () => void;
+    compactMode: boolean;
     children: ReactNode;
 };
 

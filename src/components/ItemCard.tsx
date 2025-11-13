@@ -14,41 +14,39 @@ const rarityBg: Record<Item["rarity"], string> = {
     epic: "bg-purple-900/25",
 };
 
-export default function ItemCard({
-                                     name,
-                                     category,
-                                     // tier,
-                                     // value,
-                                     rarity,
-                                     image,
-                                     quantity,
-                                 }: Item) {
+export default function ItemCard(props: Item & { compact?: boolean }) {
+    const { name, category, rarity, image, quantity, compact } = props;
     return (
         <div
-            className={`rounded-xl overflow-hidden border ${rarityColors[rarity]} ${rarityBg[rarity]} hover:shadow-lg transition`}
+            className={`
+            rounded-lg overflow-hidden border ${rarityColors[rarity]} ${rarityBg[rarity]}
+            hover:shadow-md transition
+            ${compact ? "p-2" : "p-3"}
+        `}
         >
-            <div className="flex justify-center items-center bg-gray-900/50 p-3">
-                <div className="w-full max-w-[220px] aspect-[220/120] flex items-center justify-center">
-                    <img
-                        src={image || "https://placehold.co/128x128?text=Item"}
-                        alt={name}
-                        className="w-full h-full object-contain"
-                    />
-                </div>
+            <div className={`flex justify-center items-center bg-gray-900/40 ${compact ? "p-1" : "p-3"}`}>
+                <img
+                    src={image || "https://placehold.co/128x128?text=Item"}
+                    alt={name}
+                    className={`${compact ? "w-14 h-14" : "w-24 h-24"} object-contain`}
+                />
             </div>
-            <div className="p-4">
-                <h2 className="font-semibold text-lg text-white flex items-center justify-between">
+
+            <div className={`${compact ? "p-2" : "p-4"}`}>
+                <h2 className={`font-semibold flex justify-between ${compact ? "text-sm" : "text-lg"}`}>
                     <span>{name}</span>
                     {quantity && (
-                        <span className="text-xl text-orange-400 ml-2">×{quantity}</span>
+                        <span className={`ml-2 ${compact ? "text-sm" : "text-xl"} text-orange-400`}>
+                        ×{quantity}
+                    </span>
                     )}
                 </h2>
-                <p className="text-sm text-gray-400">{category}</p>
-                <div className="mt-2 flex justify-between text-sm text-gray-300">
-                    {/*<span>Tier: {tier}</span>*/}
-                    {/*<span>{value}</span>*/}
-                </div>
+
+                <p className={`${compact ? "text-xs" : "text-sm"} text-gray-400`}>
+                    {category}
+                </p>
             </div>
         </div>
     );
+
 }

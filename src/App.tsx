@@ -9,7 +9,7 @@ import CookieConsent from "./components/CookieConsent";
 import Footer from "./components/Footer";
 
 import type { BenchLevels } from "./types/benches";
-import ItemSection from "./components/ItemSection/ItemsSection";
+import ItemsSection from "./components/ItemSection/ItemsSection";
 import type { Item } from "./data/items";
 
 const GROUPS: Item["group"][] = [
@@ -22,6 +22,8 @@ const GROUPS: Item["group"][] = [
 export default function App() {
     const [query, setQuery] = useState("");
     const [panelOpen, setPanelOpen] = useState(false);
+
+    const [compactMode, setCompactMode] = useState(false);
 
     const [benchLevels, setBenchLevels] = useState<BenchLevels>(() => {
         const saved = localStorage.getItem("benchLevels");
@@ -110,14 +112,25 @@ export default function App() {
             <main className="flex-1 px-6 pb-12 max-w-7xl mx-auto">
                 <SearchBar query={query} setQuery={handleSearch} />
 
-                <ItemSection
+                <div className="flex justify-end mb-4">
+                    <button
+                        onClick={() => setCompactMode(c => !c)}
+                        className="px-3 py-1 text-sm bg-gray-800 border border-gray-700 rounded hover:bg-gray-700 transition"
+                    >
+                        {compactMode ? "Switch to Normal View" : "Switch to Compact View"}
+                    </button>
+                </div>
+
+                <ItemsSection
                     items={filteredItems}
                     benchLevels={benchLevels}
                     collapsedGroups={collapsedGroups}
                     expandAll={expandAll}
                     collapseAll={collapseAll}
                     setCollapsedGroups={setCollapsedGroups}
+                    compactMode={compactMode}
                 />
+
             </main>
 
             <SidePanel
