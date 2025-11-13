@@ -23,7 +23,6 @@ export default function App() {
     const [query, setQuery] = useState("");
     const [panelOpen, setPanelOpen] = useState(false);
 
-    // --- Workbench levels (localStorage persistence)
     const [benchLevels, setBenchLevels] = useState<BenchLevels>(() => {
         const saved = localStorage.getItem("benchLevels");
         return saved
@@ -35,10 +34,10 @@ export default function App() {
                 refinery: 1,
                 utility: 1,
                 scrappy: 1,
+                gear: 1,
             };
     });
 
-    // --- Collapsed groups
     const [collapsedGroups, setCollapsedGroups] = useState<
         Record<Item["group"], boolean>
     >(() =>
@@ -48,27 +47,22 @@ export default function App() {
         >
     );
 
-    // --- Track GA pageview
     useEffect(() => {
         trackPageview();
     }, []);
 
-    // --- Persist bench levels
     useEffect(() => {
         localStorage.setItem("benchLevels", JSON.stringify(benchLevels));
     }, [benchLevels]);
 
-    // --- Filter items by query
     const filteredItems = items.filter((item) =>
         item.name.toLowerCase().includes(query.toLowerCase())
     );
 
-    // --- Search handler with auto-expand logic
     const handleSearch = (value: string) => {
         setQuery(value);
 
         if (value.trim() === "") {
-            // Reset → everything expanded
             const resetState = Object.fromEntries(
                 GROUPS.map((g) => [g, false])
             ) as Record<Item["group"], boolean>;
@@ -91,7 +85,6 @@ export default function App() {
         setCollapsedGroups(newState);
     };
 
-    // --- Global expand/collapse
     const expandAll = () => {
         setCollapsedGroups(
             Object.fromEntries(GROUPS.map((g) => [g, false])) as Record<

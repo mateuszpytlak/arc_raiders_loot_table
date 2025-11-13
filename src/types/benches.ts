@@ -4,6 +4,7 @@ export type BenchKey =
     | "explosives"
     | "refinery"
     | "utility"
-    | "scrappy";
+    | "scrappy"
+    | "gear";
 
 export type BenchLevels = Record<BenchKey, number>;

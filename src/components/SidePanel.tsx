@@ -9,12 +9,13 @@ type Props = {
 };
 
 const benches: { key: BenchKey; label: string; maxLevel: number }[] = [
+    { key: "scrappy", label: "Scrappy", maxLevel: 5 },
     { key: "gunsmith", label: "Gunsmith Bench", maxLevel: 3 },
     { key: "medical", label: "Medical Lab", maxLevel: 3 },
     { key: "explosives", label: "Explosives Station", maxLevel: 3 },
+    { key: "gear", label: "Gear Bench", maxLevel: 3 },
     { key: "refinery", label: "Refinery", maxLevel: 3 },
     { key: "utility", label: "Utility Station", maxLevel: 3 },
-    { key: "scrappy", label: "Scrappy", maxLevel: 5 },
 ];
 
 export default function SidePanel({
@@ -32,7 +33,6 @@ export default function SidePanel({
                 transform transition-all duration-500 ease-in-out
                 ${open ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"}`}
         >
-            {/* Header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-gray-800 bg-gradient-to-r from-sky-700/30 to-transparent">
                 <h2 className="text-lg font-semibold text-sky-300 tracking-wide">
                     Workbench Settings
@@ -45,7 +45,6 @@ export default function SidePanel({
                 </button>
             </div>
 
-            {/* Body */}
             <div className="p-6 space-y-8 text-gray-200 overflow-y-auto h-[calc(100%-64px)]">
                 {benches.map(({ key, label, maxLevel }) => {
                     const currentLevel = benchLevels[key];
@@ -57,7 +56,6 @@ export default function SidePanel({
                                 {label}
                             </label>
 
-                            {/* Dots */}
                             <div className="flex items-center justify-between mb-2 select-none">
                                 {Array.from({ length: maxLevel }, (_, i) => i + 1).map((lvl) => (
                                     <button
@@ -76,14 +74,12 @@ export default function SidePanel({
                                 ))}
                             </div>
 
-                            {/* Dot labels */}
                             <div className="flex justify-between text-[10px] uppercase tracking-wider text-gray-500 mb-2">
                                 {Array.from({ length: maxLevel }, (_, i) => (
                                     <span key={i}>Lvl {i + 1}</span>
                                 ))}
                             </div>
 
-                            {/* Progress bar */}
                             <div className="relative h-1 bg-gray-800 rounded-full overflow-hidden mb-2">
                                 <div
                                     className="absolute top-0 left-0 h-full bg-sky-500 transition-all duration-500"

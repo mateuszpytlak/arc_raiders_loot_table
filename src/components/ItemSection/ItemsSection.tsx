@@ -1,8 +1,5 @@
-// src/components/ItemSection/ItemsSection.tsx
-
 import type { Item } from "../../data/items";
 import type { BenchLevels } from "../../types/benches";
-
 import ItemGroup from "./ItemGroup";
 import UpgradingSection from "./UpgradingSection";
 import ItemCard from "../ItemCard";
@@ -20,7 +17,6 @@ type Props = {
     collapseAll: () => void;
 };
 
-// Stałe grupy — identyczne jak w Item["group"]
 const GROUPS: Item["group"][] = [
     "Keep for Quests",
     "Keep for Projects",
@@ -46,7 +42,6 @@ export default function ItemsSection({
 
     return (
         <div>
-            {/* Global Expand / Collapse */}
             <div className="flex gap-3 mb-6">
                 <button
                     type="button"
@@ -67,7 +62,6 @@ export default function ItemsSection({
                 </button>
             </div>
 
-            {/* Sekcje grup */}
             {GROUPS.map((group) => {
                 const groupItems = items.filter((i) => i.group === group);
                 if (groupItems.length === 0) return null;

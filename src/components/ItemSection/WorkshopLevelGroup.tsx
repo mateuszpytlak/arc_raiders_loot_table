@@ -1,14 +1,12 @@
 import { useState } from "react";
 import ItemCard from "../ItemCard";
 import type { Item } from "../../data/items";
+import type {BenchLevels} from "../../types/benches.ts";
 
 interface Props {
     workshop: string;
     items: Item[];
-    benchLevels: Record<
-        "gunsmith" | "medical" | "explosives" | "refinery" | "utility" | "scrappy",
-        number
-    >;
+    benchLevels: BenchLevels;
 }
 
 export default function WorkshopLevelGroup({ workshop, items, benchLevels }: Props) {
@@ -26,6 +24,7 @@ export default function WorkshopLevelGroup({ workshop, items, benchLevels }: Pro
     else if (workshop === "Refinery") current = benchLevels.refinery;
     else if (workshop === "Utility Station") current = benchLevels.utility;
     else if (workshop === "Explosives Station") current = benchLevels.explosives;
+    else if (workshop === "Gear Bench") current = benchLevels.gear;
     else if (workshop === "Scrappy") {
         current = benchLevels.scrappy;
         maxLevel = 5;
@@ -42,8 +41,6 @@ export default function WorkshopLevelGroup({ workshop, items, benchLevels }: Pro
 
     return (
         <div className="mb-3">
-
-            {/* 🔹 Nagłówek warsztatu z toggle */}
             <button
                 onClick={toggle}
                 className="flex items-center justify-between w-full text-left cursor-pointer mb-4"
@@ -59,8 +56,6 @@ export default function WorkshopLevelGroup({ workshop, items, benchLevels }: Pro
                     ▶
                 </span>
             </button>
-
-            {/* 🔹 Zawartość warsztatu (levele + itemy) */}
             <div
                 className={`
                     transition-all duration-300 overflow-hidden origin-top
@@ -75,7 +70,6 @@ export default function WorkshopLevelGroup({ workshop, items, benchLevels }: Pro
 
                     return (
                         <div key={lvl} className="mb-8">
-                            {/* Level label */}
                             <div className="flex items-center gap-3 mb-3">
                                 <span
                                     className={`inline-block text-xs font-semibold px-3 py-1 rounded-full border
@@ -90,8 +84,6 @@ export default function WorkshopLevelGroup({ workshop, items, benchLevels }: Pro
                                 </span>
                                 <div className="flex-1 h-px bg-gray-700/50" />
                             </div>
-
-                            {/* Grid itemów */}
                             <div
                                 className={`grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 ${
                                     isGreyed ? "opacity-40 saturate-50" : "opacity-100"
