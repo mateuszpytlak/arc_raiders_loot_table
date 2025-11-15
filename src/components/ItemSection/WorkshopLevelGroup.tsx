@@ -1,7 +1,8 @@
+// src/components/ItemSection/WorkshopLevelGroup.tsx
 import { useState } from "react";
 import ItemCard from "../ItemCard";
 import type { Item } from "../../data/items";
-import type {BenchLevels} from "../../types/benches.ts";
+import type { BenchLevels } from "../../types/benches";
 
 interface Props {
     workshop: string;
@@ -10,34 +11,52 @@ interface Props {
     compactMode: boolean;
 }
 
-export default function WorkshopLevelGroup({ workshop, items, benchLevels, compactMode }: Props) {
-    // 🔹 LOCAL COLLAPSE STATE dla tej jednej pod-grupy
+export default function WorkshopLevelGroup({
+    workshop,
+    items,
+    benchLevels,
+    compactMode,
+}: Props) {
     const [collapsed, setCollapsed] = useState(false);
+    const toggle = () => setCollapsed(c => !c);
 
-    const toggle = () => setCollapsed((c) => !c);
-
-    // 🔹 Ustalmy bieżący level użytkownika
+    // -------------------------------
+    // CURRENT & MAX LEVEL LOGIC
+    // -------------------------------
     let current = 1;
     let maxLevel = 3;
 
-    if (workshop === "Gunsmith Bench") current = benchLevels.gunsmith;
-    else if (workshop === "Medical Lab") current = benchLevels.medical;
-    else if (workshop === "Refinery") current = benchLevels.refinery;
-    else if (workshop === "Utility Station") current = benchLevels.utility;
-    else if (workshop === "Explosives Station") current = benchLevels.explosives;
-    else if (workshop === "Gear Bench") current = benchLevels.gear;
-    else if (workshop === "Scrappy") {
-        current = benchLevels.scrappy;
-        maxLevel = 5;
+    switch (workshop) {
+        case "Gunsmith Bench":
+            current = benchLevels.gunsmith;
+            break;
+        case "Medical Lab":
+            current = benchLevels.medical;
+            break;
+        case "Refinery":
+            current = benchLevels.refinery;
+            break;
+        case "Utility Station":
+            current = benchLevels.utility;
+            break;
+        case "Explosives Station":
+            current = benchLevels.explosives;
+            break;
+        case "Gear Bench":
+            current = benchLevels.gear;
+            break;
+        case "Scrappy":
+            current = benchLevels.scrappy;
+            maxLevel = 5;
+            break;
     }
 
-    // 🔹 Zbierz dostępne levele (1 → maxLevel)
     const levels = Array.from({ length: maxLevel }, (_, i) => i + 1);
 
-    // 🔹 Grupujemy itemy po poziomie
+    // group items by level
     const itemsByLevel: Record<number, Item[]> = {};
-    levels.forEach((lvl) => {
-        itemsByLevel[lvl] = items.filter((i) => (i.level ?? 1) === lvl);
+    levels.forEach(lvl => {
+        itemsByLevel[lvl] = items.filter(i => (i.level ?? 1) === lvl);
     });
 
     return (
@@ -57,15 +76,16 @@ export default function WorkshopLevelGroup({ workshop, items, benchLevels, compa
                     ▶
                 </span>
             </button>
+
             <div
                 className={`
                     transition-all duration-300 overflow-hidden origin-top
                     ${collapsed ? "opacity-0 scale-y-0 h-0" : "opacity-100 scale-y-100 h-auto"}
                 `}
             >
-                {levels.map((lvl) => {
-                    const lvlItems = itemsByLevel[lvl] ?? [];
-                    if (lvlItems.length === 0) return null;
+                {levels.map(lvl => {
+                    const lvlItems = itemsByLevel[lvl];
+                    if (!lvlItems || lvlItems.length === 0) return null;
 
                     const isGreyed = lvl <= current;
 
@@ -75,26 +95,35 @@ export default function WorkshopLevelGroup({ workshop, items, benchLevels, compa
                                 <span
                                     className={`inline-block text-xs font-semibold px-3 py-1 rounded-full border
                                         ${
-                                        isGreyed
-                                            ? "bg-gray-800 text-gray-500 border-gray-700"
-                                            : "bg-gray-800 text-gray-300 border-gray-700"
-                                    }
+                                            isGreyed
+                                                ? "bg-gray-800 text-gray-500 border-gray-700"
+                                                : "bg-gray-800 text-gray-300 border-gray-700"
+                                        }
                                     `}
                                 >
                                     LEVEL {lvl}
                                 </span>
                                 <div className="flex-1 h-px bg-gray-700/50" />
                             </div>
-                            <div
-                                className={`grid gap-4 sm:grid-cols-2 md:grid-cols-3 ${compactMode ? "lg:grid-cols-6" : "lg:grid-cols-5"} ${
-                                    isGreyed ? "opacity-40 saturate-50" : "opacity-100"
-                                }`}
-                            >
-                                {lvlItems.map((item) => (
+
+                            <div className="w-full">
+                                <div
+                                className={`
+                                        grid gap-4
+                                        sm:grid-cols-2 
+                                        md:grid-cols-3 
+                                        xl:grid-cols-6
+                                        max-w-7xl mx-auto
+                                        ${
+                                            isGreyed ? "opacity-40 saturate-50" : "opacity-100"
+                                        }
+                                    `}
+                                >
+                                {lvlItems.map(item => (
                                     <ItemCard key={item.name} {...item} compact={compactMode} />
                                 ))}
                             </div>
-
+                            </div>
                             {isGreyed && (
                                 <p className="text-xs text-gray-500 mt-2 ml-1">
                                     Already completed.
