@@ -86,7 +86,7 @@ export default function WorkshopLevelGroup({ workshop, items, benchLevels, compa
                                 <div className="flex-1 h-px bg-gray-700/50" />
                             </div>
                             <div
-                                className={`grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 ${
+                                className={`grid gap-4 sm:grid-cols-2 md:grid-cols-3 ${compactMode ? "lg:grid-cols-6" : "lg:grid-cols-5"} ${
                                     isGreyed ? "opacity-40 saturate-50" : "opacity-100"
                                 }`}
                             >
