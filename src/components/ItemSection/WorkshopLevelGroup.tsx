@@ -102,6 +102,7 @@ export default function WorkshopLevelGroup({
                                         key={item.name}
                                         {...item}
                                         compact={compactMode}
+                                        completed={isCompleted}
                                     />
                                 ))}
                             </div>
