@@ -33,11 +33,17 @@ export default function SidePanel({
     if (!open) return null;
 
     return (
-        <aside
-            className={`${PANEL_TRANSITION} ${
-                open ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
-            }`}
-        >
+        <>
+            <div
+                className="fixed inset-0 z-40"
+                onClick={onClose}
+                aria-hidden="true"
+            />
+            <aside
+                className={`${PANEL_TRANSITION} ${
+                    open ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
+                }`}
+            >
             <div className="flex items-center justify-between px-5 py-4 border-b border-gray-800 bg-gradient-to-r from-sky-700/30 to-transparent">
                 <h2 className="text-lg font-semibold text-sky-300 tracking-wide">
                     Workbench Settings
@@ -110,5 +116,6 @@ export default function SidePanel({
                 })}
             </div>
         </aside>
+        </>
     );
 }
