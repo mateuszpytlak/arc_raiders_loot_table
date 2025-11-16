@@ -1,28 +1,36 @@
-// src/components/ItemSection/ItemsSection.tsx
+import { useMemo } from "react";
+import ItemCard from "../ItemCard";
+import { ITEM_GRID_LAYOUT } from "../../constants/layout";
+import { ITEM_GROUPS } from "../../constants/itemGroups";
 import type { Item } from "../../data/items";
 import type { BenchLevels } from "../../types/benches";
-import type { Dispatch, SetStateAction } from "react";
-
 import ItemGroup from "./ItemGroup";
 import UpgradingSection from "./UpgradingSection";
-import ItemCard from "../ItemCard";
+
+type CollapsedState = Record<Item["group"], boolean>;
 
 type Props = {
     items: Item[];
     benchLevels: BenchLevels;
-    collapsedGroups: Record<Item["group"], boolean>;
+    collapsedGroups: CollapsedState;
     expandAll: () => void;
     collapseAll: () => void;
-    setCollapsedGroups: Dispatch<SetStateAction<Record<Item["group"], boolean>>>;
+    onToggleGroup: (group: Item["group"]) => void;
     compactMode: boolean;
 };
 
-const GROUPS: Item["group"][] = [
-    "Keep for Quests",
-    "Keep for Projects",
-    "Upgrading Benches",
-    "Safely Recycle",
-];
+const groupItemsByCategory = (collection: Item[]) => {
+    const map = ITEM_GROUPS.reduce<Record<Item["group"], Item[]>>((acc, group) => {
+        acc[group] = [];
+        return acc;
+    }, {} as Record<Item["group"], Item[]>);
+
+    collection.forEach((item) => {
+        map[item.group].push(item);
+    });
+
+    return map;
+};
 
 export default function ItemsSection({
     items,
@@ -30,19 +38,13 @@ export default function ItemsSection({
     collapsedGroups,
     expandAll,
     collapseAll,
-    setCollapsedGroups,
+    onToggleGroup,
     compactMode,
 }: Props) {
-    const toggleGroup = (group: Item["group"]) => {
-        setCollapsedGroups(prev => ({
-            ...prev,
-            [group]: !prev[group],
-        }));
-    };
+    const itemsByGroup = useMemo(() => groupItemsByCategory(items), [items]);
 
     return (
-        <div>
-            {/* GLOBAL BUTTONS */}
+        <section>
             <div className="flex gap-3 mb-6">
                 <button
                     type="button"
@@ -61,9 +63,11 @@ export default function ItemsSection({
                 </button>
             </div>
 
-            {GROUPS.map(group => {
-                const groupItems = items.filter(i => i.group === group);
-                if (groupItems.length === 0) return null;
+            {ITEM_GROUPS.map((group) => {
+                const groupItems = itemsByGroup[group] ?? [];
+                if (groupItems.length === 0) {
+                    return null;
+                }
 
                 const collapsed = collapsedGroups[group];
 
@@ -72,7 +76,7 @@ export default function ItemsSection({
                         key={group}
                         title={group}
                         collapsed={collapsed}
-                        onToggle={() => toggleGroup(group)}
+                        onToggle={() => onToggleGroup(group)}
                         compactMode={compactMode}
                     >
                         {group === "Upgrading Benches" ? (
@@ -82,26 +86,19 @@ export default function ItemsSection({
                                 compactMode={compactMode}
                             />
                         ) : (
-                            <div className="w-full">
-    <div
-        className="
-            grid gap-4 
-            sm:grid-cols-2 
-            md:grid-cols-3 
-            xl:grid-cols-6
-            max-w-7xl       /* <-- to utrzymuje stałą szerokość layoutu */
-            mx-auto
-        "
-    >
-                                {groupItems.map(item => (
-                                    <ItemCard key={item.name} {...item} compact={compactMode} />
+                            <div className={ITEM_GRID_LAYOUT}>
+                                {groupItems.map((item) => (
+                                    <ItemCard
+                                        key={item.name}
+                                        {...item}
+                                        compact={compactMode}
+                                    />
                                 ))}
-                            </div>
                             </div>
                         )}
                     </ItemGroup>
                 );
             })}
-        </div>
+        </section>
     );
 }

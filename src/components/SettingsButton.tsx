@@ -1,9 +1,17 @@
-export default function SettingsButton({ onClick }: { onClick: () => void }) {
+import type { MouseEventHandler } from "react";
+
+type SettingsButtonProps = {
+    onClick: MouseEventHandler<HTMLButtonElement>;
+};
+
+export default function SettingsButton({ onClick }: SettingsButtonProps) {
     return (
         <div className="group fixed top-6 right-6 z-30">
             <button
                 onClick={onClick}
+                aria-label="Open workbench settings"
                 className="cursor-pointer bg-sky-600 hover:bg-sky-500 text-white font-semibold rounded-full p-3 shadow-lg transition focus:outline-none focus:ring-2 focus:ring-sky-400"
+                type="button"
             >
                 ⚙️
             </button>

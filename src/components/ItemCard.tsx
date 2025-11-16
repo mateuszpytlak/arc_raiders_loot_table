@@ -1,67 +1,72 @@
-// src/components/ItemCard.tsx
+import { memo } from "react";
+
 import type { Item } from "../data/items";
 
-const rarityColors: Record<Item["rarity"], string> = {
+type ItemCardProps = Item & { compact?: boolean };
+
+const rarityBorder: Record<Item["rarity"], string> = {
     common: "border-gray-600",
     uncommon: "border-green-500",
     rare: "border-blue-500",
     epic: "border-purple-500",
 };
 
-const rarityBg: Record<Item["rarity"], string> = {
+const rarityBackground: Record<Item["rarity"], string> = {
     common: "bg-gray-800",
     uncommon: "bg-green-900/20",
     rare: "bg-blue-900/20",
     epic: "bg-purple-900/25",
 };
 
-export default function ItemCard(props: Item & { compact?: boolean }) {
-    const { name, category, rarity, image, quantity, compact } = props;
+const FALLBACK_IMAGE = "https://placehold.co/128x128?text=Item";
+
+const ItemCardComponent = ({
+    name,
+    category,
+    rarity,
+    image,
+    quantity,
+    compact = false,
+}: ItemCardProps) => {
+    const containerPadding = compact ? "p-2" : "p-3";
+    const imagePadding = compact ? "p-1" : "p-3";
+    const imageSize = compact ? "w-14 h-14" : "w-24 h-24";
+    const bodyPadding = compact ? "p-2" : "p-4";
+    const titleSize = compact ? "text-sm" : "text-lg";
+    const quantitySize = compact ? "text-sm" : "text-xl";
+    const categorySize = compact ? "text-xs" : "text-sm";
 
     return (
-        <div
-            className={`
-                rounded-lg overflow-hidden border
-                ${rarityColors[rarity]} ${rarityBg[rarity]}
-                hover:shadow-md transition
-                ${compact ? "p-2" : "p-3"}
-                w-full
-            `}
+        <article
+            className={`rounded-lg overflow-hidden border ${
+                rarityBorder[rarity]
+            } ${rarityBackground[rarity]} hover:shadow-md transition ${containerPadding} w-full`}
         >
             <div
-                className={`flex justify-center items-center bg-gray-900/40 ${
-                    compact ? "p-1" : "p-3"
-                }`}
+                className={`flex justify-center items-center bg-gray-900/40 ${imagePadding}`}
             >
                 <img
-                    src={image || "https://placehold.co/128x128?text=Item"}
+                    src={image ?? FALLBACK_IMAGE}
                     alt={name}
-                    className={`${compact ? "w-14 h-14" : "w-24 h-24"} object-contain`}
+                    className={`${imageSize} object-contain`}
+                    loading="lazy"
                 />
             </div>
 
-            <div className={`${compact ? "p-2" : "p-4"}`}>
-                <h2
-                    className={`font-semibold flex justify-between ${
-                        compact ? "text-sm" : "text-lg"
-                    }`}
-                >
+            <div className={bodyPadding}>
+                <h2 className={`font-semibold flex justify-between ${titleSize}`}>
                     <span>{name}</span>
-                    {quantity && (
-                        <span
-                            className={`ml-2 ${
-                                compact ? "text-sm" : "text-xl"
-                            } text-orange-400`}
-                        >
+                    {quantity != null && (
+                        <span className={`${quantitySize} text-orange-400`}>
                             ×{quantity}
                         </span>
                     )}
                 </h2>
 
-                <p className={`${compact ? "text-xs" : "text-sm"} text-gray-400`}>
-                    {category}
-                </p>
+                <p className={`${categorySize} text-gray-400`}>{category}</p>
             </div>
-        </div>
+        </article>
     );
-}
+};
+
+export default memo(ItemCardComponent);
