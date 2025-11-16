@@ -100,7 +100,7 @@ export default function App() {
         <div className="min-h-screen flex flex-col bg-gray-950 text-white">
             <SettingsButton onClick={() => setPanelOpen(true)} />
 
-            <main className="flex-1 px-6 pb-12 max-w-7xl mx-auto">
+            <main className="flex-1 w-full px-6 pb-12 max-w-7xl mx-auto">
                 <SearchBar
                     placeholder={SEARCH_PLACEHOLDER}
                     query={query}

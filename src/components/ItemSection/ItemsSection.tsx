@@ -42,6 +42,7 @@ export default function ItemsSection({
     compactMode,
 }: Props) {
     const itemsByGroup = useMemo(() => groupItemsByCategory(items), [items]);
+    const hasResults = items.length > 0;
 
     return (
         <section>
@@ -63,42 +64,48 @@ export default function ItemsSection({
                 </button>
             </div>
 
-            {ITEM_GROUPS.map((group) => {
-                const groupItems = itemsByGroup[group] ?? [];
-                if (groupItems.length === 0) {
-                    return null;
-                }
+            {!hasResults ? (
+                <div className="p-6 text-center text-gray-300 rounded-2xl bg-gray-900/60 border border-gray-800/60">
+                    No items match your search.
+                </div>
+            ) : (
+                ITEM_GROUPS.map((group) => {
+                    const groupItems = itemsByGroup[group] ?? [];
+                    if (groupItems.length === 0) {
+                        return null;
+                    }
 
-                const collapsed = collapsedGroups[group];
+                    const collapsed = collapsedGroups[group];
 
-                return (
-                    <ItemGroup
-                        key={group}
-                        title={group}
-                        collapsed={collapsed}
-                        onToggle={() => onToggleGroup(group)}
-                        compactMode={compactMode}
-                    >
-                        {group === "Upgrading Benches" ? (
-                            <UpgradingSection
-                                items={groupItems}
-                                benchLevels={benchLevels}
-                                compactMode={compactMode}
-                            />
-                        ) : (
-                            <div className={ITEM_GRID_LAYOUT}>
-                                {groupItems.map((item) => (
-                                    <ItemCard
-                                        key={item.name}
-                                        {...item}
-                                        compact={compactMode}
-                                    />
-                                ))}
-                            </div>
-                        )}
-                    </ItemGroup>
-                );
-            })}
+                    return (
+                        <ItemGroup
+                            key={group}
+                            title={group}
+                            collapsed={collapsed}
+                            onToggle={() => onToggleGroup(group)}
+                            compactMode={compactMode}
+                        >
+                            {group === "Upgrading Benches" ? (
+                                <UpgradingSection
+                                    items={groupItems}
+                                    benchLevels={benchLevels}
+                                    compactMode={compactMode}
+                                />
+                            ) : (
+                                <div className={ITEM_GRID_LAYOUT}>
+                                    {groupItems.map((item) => (
+                                        <ItemCard
+                                            key={item.name}
+                                            {...item}
+                                            compact={compactMode}
+                                        />
+                                    ))}
+                                </div>
+                            )}
+                        </ItemGroup>
+                    );
+                })
+            )}
         </section>
     );
 }
