@@ -1,5 +1,8 @@
+import { useCallback } from "react";
 import type { Dispatch, SetStateAction } from "react";
-import type { BenchLevels, BenchKey } from "../types/benches";
+
+import { BENCH_DEFINITIONS } from "../constants/benches";
+import type { BenchKey, BenchLevels } from "../types/benches";
 
 type Props = {
     open: boolean;
@@ -8,30 +11,32 @@ type Props = {
     setBenchLevels: Dispatch<SetStateAction<BenchLevels>>;
 };
 
-const benches: { key: BenchKey; label: string; maxLevel: number }[] = [
-    { key: "scrappy", label: "Scrappy", maxLevel: 5 },
-    { key: "gunsmith", label: "Gunsmith Bench", maxLevel: 3 },
-    { key: "medical", label: "Medical Lab", maxLevel: 3 },
-    { key: "explosives", label: "Explosives Station", maxLevel: 3 },
-    { key: "gear", label: "Gear Bench", maxLevel: 3 },
-    { key: "refinery", label: "Refinery", maxLevel: 3 },
-    { key: "utility", label: "Utility Station", maxLevel: 3 },
-];
+const PANEL_TRANSITION =
+    "fixed top-0 right-0 h-full w-1/5 min-w-[320px] bg-gradient-to-b from-gray-900 to-gray-950 border-l border-gray-800 shadow-2xl z-50 transform transition-all duration-500 ease-in-out";
 
 export default function SidePanel({
-                                      open,
-                                      onClose,
-                                      benchLevels,
-                                      setBenchLevels,
-                                  }: Props) {
+    open,
+    onClose,
+    benchLevels,
+    setBenchLevels,
+}: Props) {
+    const updateBenchLevel = useCallback(
+        (bench: BenchKey, level: number) => {
+            setBenchLevels((previous) => ({
+                ...previous,
+                [bench]: level,
+            }));
+        },
+        [setBenchLevels],
+    );
+
     if (!open) return null;
 
     return (
         <aside
-            className={`fixed top-0 right-0 h-full w-1/5 min-w-[320px] bg-gradient-to-b 
-                from-gray-900 to-gray-950 border-l border-gray-800 shadow-2xl z-50 
-                transform transition-all duration-500 ease-in-out
-                ${open ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"}`}
+            className={`${PANEL_TRANSITION} ${
+                open ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
+            }`}
         >
             <div className="flex items-center justify-between px-5 py-4 border-b border-gray-800 bg-gradient-to-r from-sky-700/30 to-transparent">
                 <h2 className="text-lg font-semibold text-sky-300 tracking-wide">
@@ -40,13 +45,15 @@ export default function SidePanel({
                 <button
                     onClick={onClose}
                     className="cursor-pointer text-gray-400 hover:text-white hover:rotate-90 transform transition-transform duration-200"
+                    aria-label="Close settings"
+                    type="button"
                 >
                     ✕
                 </button>
             </div>
 
             <div className="p-6 space-y-8 text-gray-200 overflow-y-auto h-[calc(100%-64px)]">
-                {benches.map(({ key, label, maxLevel }) => {
+                {BENCH_DEFINITIONS.map(({ key, label, maxLevel }) => {
                     const currentLevel = benchLevels[key];
                     const progress = Math.max(10, (currentLevel / maxLevel) * 100);
 
@@ -57,26 +64,27 @@ export default function SidePanel({
                             </label>
 
                             <div className="flex items-center justify-between mb-2 select-none">
-                                {Array.from({ length: maxLevel }, (_, i) => i + 1).map((lvl) => (
-                                    <button
-                                        key={lvl}
-                                        onClick={() =>
-                                            setBenchLevels((prev) => ({ ...prev, [key]: lvl }))
-                                        }
-                                        className={`cursor-pointer h-4 w-4 rounded-full transition-all duration-300 
-                                            ${
-                                            lvl <= currentLevel
-                                                ? "bg-sky-400 shadow-[0_0_8px_rgba(56,189,248,0.7)] scale-110"
-                                                : "bg-gray-700 hover:bg-gray-600"
-                                        }`}
-                                        title={`Level ${lvl}`}
-                                    />
-                                ))}
+                                {Array.from({ length: maxLevel }, (_, index) => index + 1).map(
+                                    (level) => (
+                                        <button
+                                            key={level}
+                                            onClick={() => updateBenchLevel(key, level)}
+                                            className={`cursor-pointer h-4 w-4 rounded-full transition-all duration-300 ${
+                                                level <= currentLevel
+                                                    ? "bg-sky-400 shadow-[0_0_8px_rgba(56,189,248,0.7)] scale-110"
+                                                    : "bg-gray-700 hover:bg-gray-600"
+                                            }`}
+                                            title={`Level ${level}`}
+                                            aria-label={`${label} level ${level}`}
+                                            type="button"
+                                        />
+                                    ),
+                                )}
                             </div>
 
                             <div className="flex justify-between text-[10px] uppercase tracking-wider text-gray-500 mb-2">
-                                {Array.from({ length: maxLevel }, (_, i) => (
-                                    <span key={i}>Lvl {i + 1}</span>
+                                {Array.from({ length: maxLevel }, (_, index) => (
+                                    <span key={index}>Lvl {index + 1}</span>
                                 ))}
                             </div>
 
@@ -88,10 +96,14 @@ export default function SidePanel({
                             </div>
 
                             <p className="text-xs text-gray-400">
-                                Currently on{" "}
-                                <span className="text-sky-400 font-semibold">Level {currentLevel}</span> — showing
-                                materials needed to reach{" "}
-                                <span className="text-sky-400 font-semibold">Level {maxLevel}</span>.
+                                Currently on {" "}
+                                <span className="text-sky-400 font-semibold">
+                                    Level {currentLevel}
+                                </span>{" "}
+                                — showing materials needed to reach {" "}
+                                <span className="text-sky-400 font-semibold">
+                                    Level {maxLevel}
+                                </span>.
                             </p>
                         </div>
                     );

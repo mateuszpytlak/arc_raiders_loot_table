@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import WorkshopLevelGroup from "./WorkshopLevelGroup";
 import type { BenchLevels } from "../../types/benches";
 import type { Item } from "../../data/items";
@@ -9,29 +10,33 @@ type Props = {
 };
 
 export default function UpgradingSection({ items, benchLevels, compactMode }: Props) {
-    const workshops: string[] = Array.from(
-        new Set(
-            items
-                .map((i) => i.workshop)
-                .filter((w): w is string => Boolean(w))
-        )
+    const workshops = useMemo(
+        () =>
+            Array.from(
+                new Set(
+                    items
+                        .map((item) => item.workshop)
+                        .filter((workshop): workshop is string => Boolean(workshop)),
+                ),
+            ),
+        [items],
     );
 
     return (
-        <>
-            {workshops.map((ws) => {
-                const wsItems = items.filter((i) => i.workshop === ws);
+        <div className="space-y-6">
+            {workshops.map((workshop) => {
+                const workshopItems = items.filter((item) => item.workshop === workshop);
 
                 return (
                     <WorkshopLevelGroup
-                        key={ws}
-                        workshop={ws}
-                        items={wsItems}
+                        key={workshop}
+                        workshop={workshop}
+                        items={workshopItems}
                         benchLevels={benchLevels}
                         compactMode={compactMode}
                     />
                 );
             })}
-        </>
+        </div>
     );
 }

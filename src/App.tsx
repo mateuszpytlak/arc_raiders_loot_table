@@ -1,123 +1,120 @@
-import { useState, useEffect } from "react";
-import { trackPageview } from "./lib/ga";
-import { items } from "./data/items";
-
+import { useCallback, useMemo, useState, useEffect } from "react";
+import ItemsSection from "./components/ItemSection/ItemsSection";
+import CookieConsent from "./components/CookieConsent";
+import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar";
 import SettingsButton from "./components/SettingsButton";
 import SidePanel from "./components/SidePanel";
-import CookieConsent from "./components/CookieConsent";
-import Footer from "./components/Footer";
-
+import { items } from "./data/items";
+import { usePersistentState } from "./hooks/usePersistentState";
+import { trackPageview } from "./lib/ga";
+import { createDefaultBenchLevels } from "./constants/benches";
+import { createGroupCollapseState, ITEM_GROUPS } from "./constants/itemGroups";
 import type { BenchLevels } from "./types/benches";
-import ItemsSection from "./components/ItemSection/ItemsSection";
 import type { Item } from "./data/items";
 
-const GROUPS: Item["group"][] = [
-    "Keep for Quests",
-    "Keep for Projects",
-    "Upgrading Benches",
-    "Safely Recycle",
-];
+const SEARCH_PLACEHOLDER = "Search items...";
+
+const filterItemsByQuery = (collection: Item[], query: string) => {
+    const normalizedQuery = query.trim().toLowerCase();
+
+    if (!normalizedQuery) {
+        return collection;
+    }
+
+    return collection.filter((item) =>
+        item.name.toLowerCase().includes(normalizedQuery),
+    );
+};
 
 export default function App() {
     const [query, setQuery] = useState("");
     const [panelOpen, setPanelOpen] = useState(false);
-
     const [compactMode, setCompactMode] = useState(false);
 
-    const [benchLevels, setBenchLevels] = useState<BenchLevels>(() => {
-        const saved = localStorage.getItem("benchLevels");
-        return saved
-            ? JSON.parse(saved)
-            : {
-                gunsmith: 1,
-                medical: 1,
-                explosives: 1,
-                refinery: 1,
-                utility: 1,
-                scrappy: 1,
-                gear: 1,
-            };
-    });
+    const [benchLevels, setBenchLevels] = usePersistentState<BenchLevels>(
+        "benchLevels",
+        () => createDefaultBenchLevels(),
+    );
 
     const [collapsedGroups, setCollapsedGroups] = useState<
         Record<Item["group"], boolean>
-    >(() =>
-        Object.fromEntries(GROUPS.map((g) => [g, false])) as Record<
-            Item["group"],
-            boolean
-        >
-    );
+    >(() => createGroupCollapseState(false));
 
     useEffect(() => {
         trackPageview();
     }, []);
 
-    useEffect(() => {
-        localStorage.setItem("benchLevels", JSON.stringify(benchLevels));
-    }, [benchLevels]);
-
-    const filteredItems = items.filter((item) =>
-        item.name.toLowerCase().includes(query.toLowerCase())
+    const filteredItems = useMemo(
+        () => filterItemsByQuery(items, query),
+        [query],
     );
 
-    const handleSearch = (value: string) => {
-        setQuery(value);
+    const expandAll = useCallback(() => {
+        setCollapsedGroups(createGroupCollapseState(false));
+    }, []);
 
-        if (value.trim() === "") {
-            const resetState = Object.fromEntries(
-                GROUPS.map((g) => [g, false])
-            ) as Record<Item["group"], boolean>;
-            setCollapsedGroups(resetState);
-            return;
-        }
+    const collapseAll = useCallback(() => {
+        setCollapsedGroups(createGroupCollapseState(true));
+    }, []);
 
-        const matchingGroups = new Set(
-            items
-                .filter((item) =>
-                    item.name.toLowerCase().includes(value.toLowerCase())
-                )
-                .map((item) => item.group)
-        );
+    const handleToggleGroup = useCallback((group: Item["group"]) => {
+        setCollapsedGroups((previous) => ({
+            ...previous,
+            [group]: !previous[group],
+        }));
+    }, []);
 
-        const newState = Object.fromEntries(
-            GROUPS.map((g) => [g, !matchingGroups.has(g)])
-        ) as Record<Item["group"], boolean>;
+    const handleSearch = useCallback(
+        (value: string) => {
+            setQuery(value);
 
-        setCollapsedGroups(newState);
-    };
+            const normalizedQuery = value.trim().toLowerCase();
+            if (!normalizedQuery) {
+                setCollapsedGroups(createGroupCollapseState(false));
+                return;
+            }
 
-    const expandAll = () => {
-        setCollapsedGroups(
-            Object.fromEntries(GROUPS.map((g) => [g, false])) as Record<
-                Item["group"],
-                boolean
-            >
-        );
-    };
+            const matchingGroups = new Set(
+                items
+                    .filter((item) =>
+                        item.name
+                            .toLowerCase()
+                            .includes(normalizedQuery),
+                    )
+                    .map((item) => item.group),
+            );
 
-    const collapseAll = () => {
-        setCollapsedGroups(
-            Object.fromEntries(GROUPS.map((g) => [g, true])) as Record<
-                Item["group"],
-                boolean
-            >
-        );
-    };
+            setCollapsedGroups((previous) => {
+                const next = { ...previous };
+                ITEM_GROUPS.forEach((group) => {
+                    next[group] = !matchingGroups.has(group);
+                });
+                return next;
+            });
+        },
+        [],
+    );
 
     return (
         <div className="min-h-screen flex flex-col bg-gray-950 text-white">
             <SettingsButton onClick={() => setPanelOpen(true)} />
 
             <main className="flex-1 px-6 pb-12 max-w-7xl mx-auto">
-                <SearchBar query={query} setQuery={handleSearch} />
+                <SearchBar
+                    placeholder={SEARCH_PLACEHOLDER}
+                    query={query}
+                    onQueryChange={handleSearch}
+                />
 
                 <div className="flex justify-end mb-4">
                     <button
-                        onClick={() => setCompactMode(c => !c)}
+                        onClick={() => setCompactMode((current) => !current)}
                         className="px-3 py-1 text-sm bg-gray-800 border border-gray-700 rounded hover:bg-gray-700 transition"
                     >
-                        {compactMode ? "Switch to Normal View" : "Switch to Compact View"}
+                        {compactMode
+                            ? "Switch to Normal View"
+                            : "Switch to Compact View"}
                     </button>
                 </div>
 
@@ -127,10 +124,9 @@ export default function App() {
                     collapsedGroups={collapsedGroups}
                     expandAll={expandAll}
                     collapseAll={collapseAll}
-                    setCollapsedGroups={setCollapsedGroups}
+                    onToggleGroup={handleToggleGroup}
                     compactMode={compactMode}
                 />
-
             </main>
 
             <SidePanel
