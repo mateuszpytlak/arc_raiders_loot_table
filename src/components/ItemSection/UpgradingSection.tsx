@@ -10,23 +10,19 @@ type Props = {
 };
 
 export default function UpgradingSection({ items, benchLevels, compactMode }: Props) {
-    const workshops = useMemo(
-        () =>
-            Array.from(
-                new Set(
-                    items
-                        .map((item) => item.workshop)
-                        .filter((workshop): workshop is string => Boolean(workshop)),
-                ),
-            ),
-        [items],
-    );
+    const workshops = useMemo(() => {
+        return items.reduce<Record<string, Item[]>>((acc, item) => {
+            if (!item.workshop) {
+                return acc;
+            }
+            (acc[item.workshop] ??= []).push(item);
+            return acc;
+        }, {});
+    }, [items]);
 
     return (
         <div className="space-y-6">
-            {workshops.map((workshop) => {
-                const workshopItems = items.filter((item) => item.workshop === workshop);
-
+            {Object.entries(workshops).map(([workshop, workshopItems]) => {
                 return (
                     <WorkshopLevelGroup
                         key={workshop}

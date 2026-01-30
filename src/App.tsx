@@ -8,24 +8,12 @@ import SidePanel from "./components/SidePanel";
 import { items } from "./data/items";
 import { usePersistentState } from "./hooks/usePersistentState";
 import { trackPageview } from "./lib/ga";
-import { createDefaultBenchLevels } from "./constants/benches";
+import { createDefaultBenchLevels, normalizeBenchLevels } from "./constants/benches";
 import { createGroupCollapseState, ITEM_GROUPS } from "./constants/itemGroups";
 import type { BenchLevels } from "./types/benches";
 import type { Item } from "./data/items";
 
 const SEARCH_PLACEHOLDER = "Search items...";
-
-const filterItemsByQuery = (collection: Item[], query: string) => {
-    const normalizedQuery = query.trim().toLowerCase();
-
-    if (!normalizedQuery) {
-        return collection;
-    }
-
-    return collection.filter((item) =>
-        item.name.toLowerCase().includes(normalizedQuery),
-    );
-};
 
 export default function App() {
     const [query, setQuery] = useState("");
@@ -45,10 +33,32 @@ export default function App() {
         trackPageview();
     }, []);
 
-    const filteredItems = useMemo(
-        () => filterItemsByQuery(items, query),
-        [query],
+    useEffect(() => {
+        const normalized = normalizeBenchLevels(benchLevels);
+        const isSame = Object.keys(normalized).every(
+            (key) =>
+                normalized[key as keyof BenchLevels] ===
+                benchLevels[key as keyof BenchLevels],
+        );
+        if (!isSame) {
+            setBenchLevels(normalized);
+        }
+    }, [benchLevels, setBenchLevels]);
+
+    const searchIndex = useMemo(
+        () => items.map((item) => ({ item, name: item.name.toLowerCase() })),
+        [],
     );
+
+    const filteredItems = useMemo(() => {
+        const normalizedQuery = query.trim().toLowerCase();
+        if (!normalizedQuery) {
+            return items;
+        }
+        return searchIndex
+            .filter(({ name }) => name.includes(normalizedQuery))
+            .map(({ item }) => item);
+    }, [query, searchIndex]);
 
     const expandAll = useCallback(() => {
         setCollapsedGroups(createGroupCollapseState(false));
@@ -76,13 +86,9 @@ export default function App() {
             }
 
             const matchingGroups = new Set(
-                items
-                    .filter((item) =>
-                        item.name
-                            .toLowerCase()
-                            .includes(normalizedQuery),
-                    )
-                    .map((item) => item.group),
+                searchIndex
+                    .filter(({ name }) => name.includes(normalizedQuery))
+                    .map(({ item }) => item.group),
             );
 
             setCollapsedGroups((previous) => {
@@ -93,7 +99,7 @@ export default function App() {
                 return next;
             });
         },
-        [],
+        [searchIndex],
     );
 
     return (

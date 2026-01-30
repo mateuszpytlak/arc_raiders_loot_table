@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import type { Dispatch, SetStateAction } from "react";
 
 import { BENCH_DEFINITIONS } from "../constants/benches";
@@ -20,6 +20,8 @@ export default function SidePanel({
     benchLevels,
     setBenchLevels,
 }: Props) {
+    const panelRef = useRef<HTMLElement | null>(null);
+
     const updateBenchLevel = useCallback(
         (bench: BenchKey, level: number) => {
             setBenchLevels((previous) => ({
@@ -29,6 +31,12 @@ export default function SidePanel({
         },
         [setBenchLevels],
     );
+
+    useEffect(() => {
+        if (open) {
+            panelRef.current?.focus();
+        }
+    }, [open]);
 
     if (!open) return null;
 
@@ -43,6 +51,16 @@ export default function SidePanel({
                 className={`${PANEL_TRANSITION} ${
                     open ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
                 }`}
+                role="dialog"
+                aria-modal="true"
+                aria-label="Workbench Settings"
+                tabIndex={-1}
+                onKeyDown={(event) => {
+                    if (event.key === "Escape") {
+                        onClose();
+                    }
+                }}
+                ref={panelRef}
             >
             <div className="flex items-center justify-between px-5 py-4 border-b border-gray-800 bg-gradient-to-r from-sky-700/30 to-transparent">
                 <h2 className="text-lg font-semibold text-sky-300 tracking-wide">

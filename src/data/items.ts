@@ -237,6 +237,7 @@ const itemImages: Record<string, string> = {
 };
 
 export interface Item {
+    id: string;
     name: string;
     category: string;
     tier: number;
@@ -249,11 +250,22 @@ export interface Item {
     level?: number;
 }
 
+type BaseItem = Omit<Item, "id">;
+
 const normalize = (name: string) =>
     name
         .toLowerCase()
         .replace(/[^\w\s]/g, "")
         .replace(/\s+/g, "_");
+
+const createItemId = (item: BaseItem) =>
+    [
+        normalize(item.name),
+        item.group,
+        item.workshop ?? "none",
+        item.level ?? 0,
+        item.quantity ?? 0,
+    ].join("|");
 
 const baseItems = [
 // === KEEP FOR QUESTS ===
@@ -448,7 +460,8 @@ const baseItems = [
     { name: "Water Filter", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
 ] as const;
 
-export const items: Item[] = baseItems.map(item => ({
+export const items: Item[] = (baseItems as BaseItem[]).map((item) => ({
     ...item,
-    image: itemImages[normalize(item.name)]
+    id: createItemId(item),
+    image: itemImages[normalize(item.name)],
 }));

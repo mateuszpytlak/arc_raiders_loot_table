@@ -99,7 +99,7 @@ export default function WorkshopLevelGroup({
                             <div className={ITEM_GRID_LAYOUT}>
                                 {levelItems.map((item) => (
                                     <ItemCard
-                                        key={item.name}
+                                        key={item.id}
                                         {...item}
                                         compact={compactMode}
                                         completed={isCompleted}

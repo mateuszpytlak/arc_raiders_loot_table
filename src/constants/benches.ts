@@ -27,3 +27,19 @@ export const createDefaultBenchLevels = (): BenchLevels =>
         levels[bench.key] = 1;
         return levels;
     }, {} as BenchLevels);
+
+export const normalizeBenchLevels = (value: unknown): BenchLevels => {
+    const defaults = createDefaultBenchLevels();
+    if (!value || typeof value !== "object") {
+        return defaults;
+    }
+
+    const levels = value as Partial<BenchLevels>;
+
+    return BENCH_DEFINITIONS.reduce<BenchLevels>((acc, bench) => {
+        const rawLevel = Number(levels[bench.key]);
+        const safeLevel = Number.isFinite(rawLevel) ? rawLevel : defaults[bench.key];
+        acc[bench.key] = Math.min(Math.max(1, safeLevel), bench.maxLevel);
+        return acc;
+    }, {} as BenchLevels);
+};

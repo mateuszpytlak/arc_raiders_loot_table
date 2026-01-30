@@ -95,7 +95,7 @@ export default function ItemsSection({
                                 <div className={ITEM_GRID_LAYOUT}>
                                     {groupItems.map((item) => (
                                         <ItemCard
-                                            key={item.name}
+                                            key={item.id}
                                             {...item}
                                             compact={compactMode}
                                         />

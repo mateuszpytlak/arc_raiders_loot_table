@@ -65,7 +65,7 @@ export default function ItemGroup({
                         : "opacity-100 scale-y-100 h-auto mt-6"
                 }`}
             >
-                {children}
+                {collapsed ? null : children}
             </div>
         </section>
     );

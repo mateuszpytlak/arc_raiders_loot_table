@@ -42,7 +42,7 @@ export default function CookieConsent() {
             console.warn("[CookieConsent] Unable to persist consent:", error);
         }
 
-        const gtag = (window as unknown as { gtag?: Function }).gtag;
+        const gtag = (window as { gtag?: (...args: unknown[]) => void }).gtag;
         if (gtag) {
             gtag("consent", "update", {
                 analytics_storage: consent,
