@@ -460,7 +460,7 @@ const baseItems = [
     { name: "Water Filter", category: "Residential", tier: 0.75, value: 2000, group: "Safely Recycle", rarity: "rare" },
 ] as const;
 
-export const items: Item[] = (baseItems as BaseItem[]).map((item) => ({
+export const items: Item[] = baseItems.map((item) => ({
     ...item,
     id: createItemId(item),
     image: itemImages[normalize(item.name)],
