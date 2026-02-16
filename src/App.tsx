@@ -7,7 +7,7 @@ import SettingsButton from "./components/SettingsButton";
 import SidePanel from "./components/SidePanel";
 import { items } from "./data/items";
 import { usePersistentState } from "./hooks/usePersistentState";
-import { trackPageview } from "./lib/ga";
+import { ENABLE_GA, trackPageview } from "./lib/ga";
 import { createDefaultBenchLevels, normalizeBenchLevels } from "./constants/benches";
 import { createGroupCollapseState, ITEM_GROUPS } from "./constants/itemGroups";
 import type { BenchLevels } from "./types/benches";
@@ -27,7 +27,7 @@ export default function App() {
 
     const [collapsedGroups, setCollapsedGroups] = useState<
         Record<Item["group"], boolean>
-    >(() => createGroupCollapseState(false));
+    >(() => createGroupCollapseState(true));
 
     useEffect(() => {
         trackPageview();
@@ -81,7 +81,7 @@ export default function App() {
 
             const normalizedQuery = value.trim().toLowerCase();
             if (!normalizedQuery) {
-                setCollapsedGroups(createGroupCollapseState(false));
+                setCollapsedGroups(createGroupCollapseState(true));
                 return;
             }
 
@@ -142,7 +142,7 @@ export default function App() {
                 setBenchLevels={setBenchLevels}
             />
 
-            <CookieConsent />
+            {ENABLE_GA ? <CookieConsent /> : null}
             <Footer />
         </div>
     );

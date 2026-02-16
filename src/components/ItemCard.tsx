@@ -21,7 +21,8 @@ const rarityBackground: Record<Item["rarity"], string> = {
     epic: "bg-purple-900/25",
 };
 
-const FALLBACK_IMAGE = "https://placehold.co/128x128?text=Item";
+const FALLBACK_IMAGE =
+    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' fill='%23111827'/%3E%3Ctext x='64' y='68' text-anchor='middle' font-family='Arial, sans-serif' font-size='14' fill='%239CA3AF'%3EItem%3C/text%3E%3C/svg%3E";
 
 const ItemCardComponent = ({
     name,
@@ -57,6 +58,8 @@ const ItemCardComponent = ({
                     alt={name}
                     className={`${imageSize} object-contain`}
                     loading="lazy"
+                    decoding="async"
+                    fetchPriority="low"
                 />
             </div>
 

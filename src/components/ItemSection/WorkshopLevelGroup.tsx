@@ -18,7 +18,7 @@ export default function WorkshopLevelGroup({
     benchLevels,
     compactMode,
 }: Props) {
-    const [collapsed, setCollapsed] = useState(false);
+    const [collapsed, setCollapsed] = useState(true);
     const toggleCollapsed = useCallback(
         () => setCollapsed((previous) => !previous),
         [],
